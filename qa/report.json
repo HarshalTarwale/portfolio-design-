@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "assets": [
+    {
+      "src": "assets/whatsapp.png",
+      "loaded": true,
+      "width": 21,
+      "height": 21
+    },
+    {
+      "src": "assets/instagram.png",
+      "loaded": true,
+      "width": 21,
+      "height": 21
+    },
+    {
+      "src": "assets/linkedin.png",
+      "loaded": true,
+      "width": 21,
+      "height": 21
+    },
+    {
+      "src": "assets/background.png",
+      "loaded": true,
+      "width": 1680,
+      "height": 944.984375
+    },
+    {
+      "src": "assets/bottom-fade.png",
+      "loaded": true,
+      "width": 1440,
+      "height": 102
+    }
+  ],
+  "headingInkPixels": [
+    13108,
+    29006
+  ],
+  "layouts": [
+    {
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920
+    }
+  ],
+  "checks": [
+    "desktop and mobile rendering",
+    "local assets loaded",
+    "canvas type renders",
+    "fixed social rail",
+    "navigation panels",
+    "WhatsApp message composition (intercepted, not sent)",
+    "Escape and focus restoration",
+    "responsive widths 320–1920px",
+    "reduced motion",
+    "text fallback without JavaScript",
+    "no browser errors"
+  ]
+}

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080806">
+  <meta name="description" content="Harshal Tarwale — Full Stack Developer & UI/UX Designer. From the first Figma frame to the final deploy. Based in Nagpur, building worldwide.">
+  <title>Harshal Tarwale — Design. Develop. Make it iconic.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/font-6.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="assets/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="tech-text.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <header class="header">
+      <nav aria-label="Main navigation">
+        <button type="button" data-panel="services">Services<span></span></button>
+        <button type="button" data-panel="work">Work<span></span></button>
+        <button type="button" data-panel="about">About<span></span></button>
+        <button type="button" data-panel="connect">Connect<span></span></button>
+      </nav>
+    </header>
+
+    <aside class="social-rail" aria-label="Find me online">
+      <a href="https://wa.me/917028235485" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+        <img src="assets/whatsapp.png" alt="" width="21" height="21"><span class="social-tip">Let’s talk</span>
+      </a>
+      <a href="https://www.instagram.com/harshal.tarwale/" target="_blank" rel="noopener noreferrer" aria-label="Harshal on Instagram">
+        <img src="assets/instagram.png" alt="" width="21" height="21"><span class="social-tip">Instagram</span>
+      </a>
+      <a href="https://www.linkedin.com/in/harshaltarwale/" target="_blank" rel="noopener noreferrer" aria-label="Harshal on LinkedIn" id="linkedin-link">
+        <img src="assets/linkedin.png" alt="" width="21" height="21"><span class="social-tip">LinkedIn</span>
+      </a>
+    </aside>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero-art" aria-hidden="true">
+          <img class="background-image" src="assets/background.png" alt="" fetchpriority="high">
+          <div class="ambient-light"></div>
+          <img class="bottom-fade" src="assets/bottom-fade.png" alt="">
+        </div>
+
+        <div class="hero-content">
+          <a class="wordmark" href="./" aria-label="Harshal Tarwale home">harshal.t<span class="wordmark-dot"></span></a>
+          <h1 id="hero-heading">
+            <span class="sr-only">Let’s make your Website iconic.</span>
+            <span class="tech-text heading-first" data-text="Let’s make your" aria-hidden="true"><span class="text-fallback">Let’s make your</span><canvas></canvas></span>
+            <span class="tech-text heading-second" data-text="Website iconic." data-mobile-text="Website" aria-hidden="true"><span class="text-fallback"><span class="desktop-only">Website iconic.</span><span class="mobile-only">Website</span></span><canvas></canvas></span>
+            <span class="tech-text heading-third mobile-only" data-text="iconic." aria-hidden="true"><span class="text-fallback">iconic.</span><canvas></canvas></span>
+          </h1>
+          <div class="hero-actions">
+            <button class="button button-primary magnetic" type="button" data-panel="connect">
+              <span class="button-label"><span>Start a project</span><span aria-hidden="true">Start a project</span></span>
+              <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg><svg viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+            </button>
+            <button class="button button-secondary magnetic" type="button" data-panel="work">
+              <span class="button-label"><span>See my work</span><span aria-hidden="true">See my work</span></span>
+              <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-footer">
+          <p class="hero-role">Full Stack Developer <span>&</span> UI/UX Designer</p>
+          <button class="interaction-hint" type="button" id="play-type"><span class="hint-cross" aria-hidden="true">⌖</span> A little curious? Touch the type.</button>
+          <p class="hero-location"><span class="status-dot" aria-hidden="true"></span> Based in Nagpur. Building worldwide.</p>
+        </div>
+      </section>
+      <footer class="page-footer"><a class="footer-signature" href="./">harshal.t</a><p>From first frame to final deploy.</p><button type="button" data-panel="connect">Have something in mind? <span aria-hidden="true">↗</span></button></footer>
+    </main>
+  </div>
+
+  <dialog id="detail-panel" class="detail-panel" aria-labelledby="panel-title">
+    <div class="panel-shell">
+      <div class="panel-top"><a href="./" class="panel-wordmark">harshal.t</a><button type="button" class="close-panel" aria-label="Close panel"><span aria-hidden="true">×</span></button></div>
+      <div id="panel-content"></div>
+      <div class="panel-bottom"><span>DESIGNED & BUILT BY HARSHAL</span><span>NAGPUR ↗ WORLDWIDE</span></div>
+    </div>
+  </dialog>
+
+  <template id="panel-services">
+    <p class="eyebrow">01 / WHAT I DO</p><h2 id="panel-title">Good design.<br>Great engineering.</h2>
+    <p class="panel-intro">From the first wireframe to the moment it goes live. One person, zero handoff.</p>
+    <div class="service-list">
+      <div><span>01</span><h3>UI/UX design</h3><p>Clear journeys. Thoughtful interfaces. Figma designs with the build already in mind.</p></div>
+      <div><span>02</span><h3>Web development</h3><p>Responsive websites and web apps that look sharp and work beautifully.</p></div>
+      <div><span>03</span><h3>E-commerce</h3><p>Online stores built around your brand, your products, and your customers.</p></div>
+    </div>
+    <button class="text-link" type="button" data-panel="connect">Let’s build something <span aria-hidden="true">↗</span></button>
+  </template>
+  <template id="panel-work">
+    <p class="eyebrow">02 / BEHIND THE WORK</p><h2 id="panel-title">Real clients.<br>Real-world builds.</h2>
+    <p class="panel-intro">Design and development experience across agencies, businesses, and e-commerce. From Figma to a live website.</p>
+    <div class="experience-card"><div class="experience-top"><span>CO-FOUNDER</span><span>01 ↗</span></div><h3>Code Vantage</h3><p>A web development and design agency delivering production websites and e-commerce platforms for real clients.</p><div class="tags"><span>Design</span><span>Development</span><span>E-commerce</span></div></div>
+    <div class="experience-card"><div class="experience-top"><span>FULL STACK DEVELOPER</span><span>02 ↗</span></div><h3>Tech Monkeys</h3><p>Building live client websites and translating Figma designs into code for a Dubai-based digital agency. Working remotely, shipping worldwide.</p><div class="tags"><span>Figma to code</span><span>Client websites</span><span>Dubai / Remote</span></div></div>
+    <button class="text-link" type="button" data-panel="connect">Talk about your project <span aria-hidden="true">↗</span></button>
+  </template>
+  <template id="panel-about">
+    <p class="eyebrow">03 / THE PERSON BEHIND THE PIXELS</p><h2 id="panel-title">Designer’s eye.<br>Developer’s brain.</h2>
+    <p class="panel-intro">I’m Harshal Tarwale, a Full Stack Developer & UI/UX Designer based in Nagpur, India.</p>
+    <div class="about-copy"><p>I co-founded Code Vantage and work with Tech Monkeys, a Dubai-based digital agency. I build for clients across Dubai, the UK, and India.</p><p>I’m the person thinking about how it feels in Figma—and how it actually works in the browser. From the first wireframe to the final deploy, I take care of both.</p></div>
+    <div class="about-statement">One vision.<br>Zero handoff.</div>
+    <button class="text-link" type="button" data-panel="connect">Got an idea? I’m listening <span aria-hidden="true">↗</span></button>
+  </template>
+  <template id="panel-connect">
+    <p class="eyebrow">04 / YOUR NEXT BIG THING</p><h2 id="panel-title">Let’s make<br>some noise.</h2>
+    <p class="panel-intro">A fresh idea, an ambitious rebuild, or something you can’t quite put into words yet. Let’s start there.</p>
+    <form id="project-form">
+      <label for="project-name">What should I call you?</label><input id="project-name" name="name" placeholder="Your name" autocomplete="given-name" maxlength="80" required>
+      <fieldset><legend>What are we making?</legend><div class="project-options"><label><input type="radio" name="service" value="Website" checked><span>Website</span></label><label><input type="radio" name="service" value="E-commerce"><span>E-commerce</span></label><label><input type="radio" name="service" value="Web app"><span>Web app</span></label><label><input type="radio" name="service" value="UI/UX design"><span>UI/UX design</span></label></div></fieldset>
+      <label for="project-details">The idea <span class="optional">(optional)</span></label><textarea id="project-details" name="details" rows="3" placeholder="A little about what you have in mind…" maxlength="1500"></textarea>
+      <button type="submit" class="button button-primary send-button"><span>Let’s talk on WhatsApp</span><span class="button-icon" aria-hidden="true">↗</span></button>
+      <p class="form-note">Opens WhatsApp with your message ready to send.</p>
+    </form>
+  </template>
+</body>
+</html>
