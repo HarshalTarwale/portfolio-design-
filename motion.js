@@ -101,7 +101,7 @@
   // ---------- Hero: parallax out ----------
   const heroOut = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true };
   gsap.to('.hero-art', { yPercent: 22, ease: 'none', scrollTrigger: heroOut });
-  gsap.to('.hero-content', { yPercent: -18, opacity: .2, ease: 'none', scrollTrigger: heroOut });
+  gsap.to('.hero-content', { yPercent: -18, opacity: .2, ease: 'none', scrollTrigger: { ...heroOut } });
 
   // ---------- Headlines: masked line reveal ----------
   if (window.SplitText) {
@@ -164,7 +164,7 @@
     });
     gsap.from(statement.querySelectorAll('.chip-img'), { width: 0, marginInline: 0, borderWidth: 0, duration: 1, ease: 'expo.out', stagger: .2, scrollTrigger: { trigger: statement, start: 'top 60%', once: true } });
   }
-  gsap.from('.id-card', { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: '.about', start: 'top 70%', once: true } });
+  gsap.from('.about-foot', { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: '.about-foot', start: 'top 92%', once: true } });
 
   // Count-up stats
   document.querySelectorAll('[data-count]').forEach(el => {

@@ -1,5 +1,6 @@
 {
   "webgl": true,
+  "lanyard": true,
   "lazyNotLoaded": [],
   "result": "pass"
 }

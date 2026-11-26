@@ -53,6 +53,13 @@ async function scrollTo(page, selector, offset = 0) {
     const visible = await page.evaluate(s => { const r = document.querySelector(s).getBoundingClientRect(); return r.height > 200; }, sel);
     assert(visible, `${sel} renders`);
   }
+  // The ID badge mounts once the About section is on screen
+  await scrollTo(page, '.about', -160);
+  report.lanyard = await page.waitForFunction(() => document.querySelector('.lanyard-wrap').classList.contains('is-live'), null, { timeout: 8000 }).then(() => true).catch(() => false);
+  assert(report.lanyard, 'Lanyard badge goes live');
+  await page.waitForTimeout(2500);
+  await page.screenshot({ path: 'qa/about.png' });
+
   // Lazy project screenshots load once reached
   await scrollTo(page, '.index-list', -200);
   const lazy = await page.locator('.case img, .index-list img').evaluateAll(list => list.filter(i => i.offsetParent !== null && !(i.complete && i.naturalWidth > 0)).map(i => i.src));

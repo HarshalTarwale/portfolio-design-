@@ -17,7 +17,7 @@ Visit http://127.0.0.1:4173. Stop with Ctrl+C. (Opening `index.html` directly al
 | — | Preloader | 0→100 counter in the fire gradient; shortened on repeat visits within a session. |
 | — | Hero | Figma 187:103 layout (wordmark, two-line headline, buttons). Interactive WebGL “ember trail”: the original fire-streak artwork sits dim at 25% with a faint heat haze; the pointer leaves a glowing, streaked ember trail that reveals and refracts the artwork, and a slow ghost ember drifts when idle. Header shows only the nav until you scroll. |
 | — | Tape marquee | Crossing tapes: what I build. Speed and direction follow scroll velocity. |
-| 01 | About | Statement sharpens from blur word by word; ID card with live IST clock; count-up stats. |
+| 01 | About | 3D ID badge on a lanyard (React Bits Lanyard, three.js): its strap disappears up under the fire tape so it hangs from it; drag, throw, click to flip (back side has contact details). Statement sharpens from blur word by word; availability + live IST clock; count-up stats. |
 | 02 | Services | Light “sheet” section. Rows fill on hover; a related project screenshot follows the cursor. |
 | 03 | Selected work | Four stacked, sticky case cards (desktop + phone mockups of the live sites); “More builds” index with cursor previews. |
 | 04 | Process | Pinned horizontal scroll with a progress line (stacks vertically on tablet/phone). |
@@ -42,6 +42,9 @@ Visit http://127.0.0.1:4173. Stop with Ctrl+C. (Opening `index.html` directly al
 - `app.js` — button letter split, WhatsApp brief, clocks, compare slider.
 - `motion.js` — Lenis smooth scroll + GSAP ScrollTrigger/SplitText/ScrambleText: preloader, reveals, marquees, stacked cases, pinned process, previews, magnetic elements.
 - `assets/work/` — screenshots of the live project sites (desktop 1440×900, mobile 390×844).
+- `src/lanyard.js` — React Bits Lanyard ported to plain JS (`mountLanyard(container, options)`); physics and materials unchanged.
+- `vendor/js/lanyard.bundle.min.js` — that module bundled with the parts of three.js 0.187 it uses (MIT, `vendor/three-LICENSE.md`); loaded only when the About section approaches.
+- `assets/lanyard/` — badge front/back (1024×1440) and strap tile, rendered from HTML in the site's type and colours.
 - `vendor/js/` — GSAP 3.15.1 (Standard “no charge” license, https://gsap.com/standard-license) and Lenis 1.3.29 (MIT, `vendor/lenis-LICENSE.md`).
 - `qa/check.cjs` — browser QA (desktop, mobile overflow, reduced motion, nav, brief). Run with the server up: `node qa/check.cjs`.
 
@@ -55,3 +58,14 @@ Visit http://127.0.0.1:4173. Stop with Ctrl+C. (Opening `index.html` directly al
 
 - Projects: edit the `.case` articles and `.index-list` items in `index.html`; drop new screenshots into `assets/work/`.
 - Stats: the `data-count` values in the About section.
+
+## Rebuilding the lanyard
+
+After editing `src/lanyard.js`, bundle it with three.js (any folder that has `three` installed):
+
+```sh
+npm i three@0.187.0
+npx esbuild src/lanyard.js --bundle --minify --format=iife --target=es2020 --outfile=vendor/js/lanyard.bundle.min.js
+```
+
+Badge options (images, size, strap length, finish, breeze) are set in `app.js` → “About: ID badge on a lanyard”. React Bits code is MIT + Commons Clause (`vendor/react-bits-LICENSE.md`): fine to use on this site, not to resell as a component.

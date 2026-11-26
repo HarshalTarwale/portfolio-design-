@@ -113,27 +113,25 @@
 
       <!-- ============ ABOUT / STATEMENT ============ -->
       <section class="section about lined" id="about" aria-labelledby="about-title">
+        <!-- ID badge on a lanyard; its strap disappears up under the fire tape (React Bits Lanyard, see src/lanyard.js) -->
+        <div class="lanyard-wrap" role="img" aria-label="Harshal’s ID badge hanging from the tape. Drag it, throw it, or click to flip it.">
+          <img class="lanyard-fallback" src="assets/lanyard/card-front.png" alt="" width="1536" height="2160" loading="lazy">
+          <span class="lanyard-hint" aria-hidden="true">Click to flip</span>
+        </div>
         <div class="wrap about-grid">
-          <aside class="about-side">
-            <p class="label" data-scramble>(01) — Hello</p>
-            <div class="id-card">
-              <div class="id-card-top"><span class="status-dot" aria-hidden="true"></span> Open for new projects</div>
-              <p class="id-name">Harshal Tarwale</p>
-              <p class="id-role">Full Stack Developer<br>& UI/UX Designer</p>
-              <div class="id-meta">
-                <span>Nagpur, India</span>
-                <span><time class="clock" data-tz="Asia/Kolkata">--:--</time> IST</span>
-              </div>
-            </div>
-          </aside>
+          <div class="about-side" aria-hidden="true"></div>
           <div class="about-main">
+            <p class="label" data-scramble>(01) — Hello</p>
             <h2 id="about-title" class="sr-only">About Harshal</h2>
             <p class="statement" data-blur-reveal>
               I’m Harshal — a designer who codes, and a developer who designs.
               I take your idea from the first <span class="chip-img"><img src="assets/work/maison.jpg" alt="" loading="lazy"></span> Figma frame to a fast, secure, <em>live</em> product: websites, online stores and web apps for brands in India, Dubai and the UK.
               One person. <span class="chip-img"><img src="assets/work/erayah.jpg" alt="" loading="lazy"></span> Zero handoff. Nothing lost in <em>translation.</em>
             </p>
-            <a class="link-arrow magnetic" href="#work"><span>See what I’ve shipped</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a>
+            <div class="about-foot">
+              <a class="link-arrow magnetic" href="#work"><span>See what I’ve shipped</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a>
+              <p class="about-meta"><span><span class="status-dot" aria-hidden="true"></span> Open for new projects</span><span>Nagpur, India · <time class="clock" data-tz="Asia/Kolkata">--:--</time> IST</span></p>
+            </div>
           </div>
         </div>
 

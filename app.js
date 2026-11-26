@@ -17,6 +17,52 @@
     });
   });
 
+  // ---- About: ID badge on a lanyard (three.js, loaded only when the section is near) ----
+  const stage = document.querySelector('.lanyard-wrap');
+  if (stage) {
+    if (window.matchMedia('(hover: none)').matches) stage.querySelector('.lanyard-hint').textContent = 'Tap to flip';
+    const small = window.matchMedia('(max-width: 1100px)');
+    const options = () => ({
+      frontImage: 'assets/lanyard/card-front.png',
+      backImage: 'assets/lanyard/card-back.png',
+      strapImage: 'assets/lanyard/strap.jpg',
+      finish: 'glossy',
+      cardColor: '#0b0908',
+      strapColor: '#101010',
+      metal: 'silver',
+      strapWidth: .65,
+      breeze: .35,
+      intro: true,
+      size: small.matches ? .58 : .5,
+      strapLength: small.matches ? .6 : .7
+    });
+    let scriptReady = null;
+    const loadScript = () => scriptReady || (scriptReady = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'vendor/js/lanyard.bundle.min.js';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.append(s);
+    }));
+    // fetch the engine a little early…
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      loadScript().catch(() => {});
+    }, { rootMargin: '900px 0px' }).observe(stage);
+    // …but drop the badge in only once it's on screen, so the swing is seen
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      loadScript().then(() => {
+        const api = window.mountLanyard?.(stage, options());
+        if (!api) return;
+        stage.classList.add('is-live');
+        small.addEventListener('change', () => api.update(options()));
+      }).catch(err => console.warn('Lanyard unavailable; showing the static badge.', err));
+    }, { threshold: .35 }).observe(stage);
+  }
+
   // ---- Project brief → prepared WhatsApp message ----
   const form = document.querySelector('#project-form');
   form.addEventListener('submit', event => {
