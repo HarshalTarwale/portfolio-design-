@@ -24,7 +24,12 @@ async function scrollTo(page, selector, offset = 0) {
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   assert.equal((await page.goto(URL)).status(), 200);
   await page.waitForSelector('.preloader', { state: 'detached', timeout: 8000 });
-  await page.waitForSelector('.tech-text.is-ready');
+  assert.equal((await page.locator('#hero-heading').innerText()).replace(/\s+/g, ' ').trim(), 'Let’s make your Website iconic.');
+  await page.waitForFunction(() => document.documentElement.classList.contains('has-gl'), null, { timeout: 5000 }).catch(() => {});
+  report.webgl = await page.evaluate(() => document.documentElement.classList.contains('has-gl'));
+  assert.equal(await page.locator('.cursor').count(), 0, 'No custom cursor');
+  assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.header-cta')).opacity), '0', 'Header CTA hidden at the top');
+  assert.equal(await page.locator('.btn .btn-text .c').first().count(), 1, 'Button labels split for the roll');
   await page.waitForTimeout(600);
   await page.screenshot({ path: 'qa/desktop.png' });
 
@@ -82,7 +87,7 @@ async function scrollTo(page, selector, offset = 0) {
   const m = await mobile.newPage();
   await m.goto(URL);
   await m.waitForSelector('.preloader', { state: 'detached', timeout: 8000 });
-  await m.waitForTimeout(500);
+  await m.waitForTimeout(2800);
   await m.screenshot({ path: 'qa/mobile.png' });
   const overflow = await m.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   assert(overflow <= 0, `No horizontal overflow on mobile (${overflow}px)`);

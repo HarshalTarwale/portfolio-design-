@@ -48,16 +48,17 @@
     event.preventDefault();
     headerLocked = true;
     const done = () => { headerLocked = false; if (id !== '#top') target.focus?.({ preventScroll: true }); };
-    if (lenis) lenis.scrollTo(target, { duration: 1.5, easing: t => 1 - Math.pow(1 - t, 4), onComplete: done });
+    if (lenis) lenis.scrollTo(target, { force: true, duration: 1.5, easing: t => 1 - Math.pow(1 - t, 4), onComplete: done });
     else { window.scrollTo({ top: id === '#top' ? 0 : target.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); setTimeout(done, 900); }
     history.replaceState(null, '', id === '#top' ? location.pathname : id);
   });
 
   // ---------- Preloader → hero entrance ----------
-  const heroItems = ['.header nav a', '.wordmark', '.heading-first', '.heading-second', '.hero-actions > *', '.hero-footer > *', '.social-rail a']
-    .flatMap(sel => [...document.querySelectorAll(sel)]).filter(el => el.offsetParent !== null || el.closest('.social-rail'));
-  if (document.querySelector('.heading-third')?.offsetParent) heroItems.splice(4, 0, document.querySelector('.heading-third'));
+  const heroItems = ['.header nav a', '.wordmark', '.hero-actions > *', '.social-rail a']
+    .flatMap(sel => [...document.querySelectorAll(sel)]);
+  const titleLines = [...document.querySelectorAll('.hero-title .hl-in')];
   gsap.set(heroItems, { y: 46, opacity: 0 });
+  gsap.set(titleLines, { yPercent: 110, rotate: 2.5, transformOrigin: '0% 100%' });
   lenis?.stop();
 
   const fast = root.classList.contains('return-visit');
@@ -70,8 +71,9 @@
   intro
     .to(preloader.querySelector('.preloader-count'), { yPercent: -30, opacity: 0, duration: .5, ease: 'power3.in' })
     .to(preloader.querySelectorAll('.preloader-top, .preloader-bottom'), { opacity: 0, duration: .3 }, '<')
-    .to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: .95, ease: 'expo.inOut', onComplete: removePreloader }, '-=.15')
-    .to(heroItems, { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out', stagger: .055, clearProps: 'transform,opacity' }, '-=.55');
+    .to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: .95, ease: 'expo.inOut', onComplete: () => { removePreloader(); lenis?.start(); } }, '-=.15')
+    .to(titleLines, { yPercent: 0, rotate: 0, duration: 1.4, ease: 'expo.out', stagger: .12, clearProps: 'transform' }, '-=.6')
+    .to(heroItems, { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out', stagger: .05, clearProps: 'transform,opacity' }, '-=1.2');
 
   gsap.set(preloader, { clipPath: 'inset(0 0 0% 0)' });
   gsap.to(counter, {
@@ -83,7 +85,7 @@
     onComplete: () => fontsReady.then(() => intro.play()),
   });
   // Failsafe: never leave the hero hidden if anything above stalls.
-  setTimeout(() => { if (!intro.isActive() && intro.progress() === 0) { gsap.set(heroItems, { clearProps: 'transform,opacity' }); removePreloader(); lenis?.start(); } }, 7000);
+  setTimeout(() => { if (!intro.isActive() && intro.progress() === 0) { gsap.set([...heroItems, ...titleLines], { clearProps: 'transform,opacity' }); removePreloader(); lenis?.start(); } }, 7000);
 
   // ---------- Global: progress bar ----------
   const progress = document.querySelector('.scroll-progress');
@@ -97,9 +99,9 @@
   });
 
   // ---------- Hero: parallax out ----------
-  gsap.to('.hero-content', { yPercent: -22, opacity: .15, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero-art .background-image', { scale: 1.12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero-footer', { opacity: 0, y: -40, ease: 'none', scrollTrigger: { trigger: '.hero', start: '60% bottom', end: 'bottom 70%', scrub: true } });
+  const heroOut = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true };
+  gsap.to('.hero-art', { yPercent: 22, ease: 'none', scrollTrigger: heroOut });
+  gsap.to('.hero-content', { yPercent: -18, opacity: .2, ease: 'none', scrollTrigger: heroOut });
 
   // ---------- Headlines: masked line reveal ----------
   if (window.SplitText) {
@@ -312,30 +314,11 @@
 
   // ---------- Magnetic elements ----------
   if (finePointer) {
-    document.querySelectorAll('.magnetic:not(.button)').forEach(el => {
+    document.querySelectorAll('.magnetic').forEach(el => {
       const xTo = gsap.quickTo(el, 'x', { duration: .6, ease: 'power3' });
       const yTo = gsap.quickTo(el, 'y', { duration: .6, ease: 'power3' });
       el.addEventListener('pointermove', e => { const b = el.getBoundingClientRect(); xTo((e.clientX - b.left - b.width / 2) * .25); yTo((e.clientY - b.top - b.height / 2) * .3); });
       el.addEventListener('pointerleave', () => { gsap.to(el, { x: 0, y: 0, duration: 1, ease: 'elastic.out(1, .4)', overwrite: true }); });
-    });
-  }
-
-  // ---------- Custom cursor ----------
-  if (finePointer) {
-    root.classList.add('has-cursor');
-    const cursor = document.querySelector('.cursor');
-    const dot = cursor.querySelector('.cursor-dot');
-    const ring = cursor.querySelector('.cursor-ring');
-    const label = cursor.querySelector('.cursor-label');
-    const dx = gsap.quickTo(dot, 'x', { duration: .08 }); const dy = gsap.quickTo(dot, 'y', { duration: .08 });
-    const rx = gsap.quickTo(ring, 'x', { duration: .45, ease: 'power3' }); const ry = gsap.quickTo(ring, 'y', { duration: .45, ease: 'power3' });
-    window.addEventListener('pointermove', e => { dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY); cursor.classList.remove('is-hidden'); }, { passive: true });
-    document.addEventListener('pointerleave', () => cursor.classList.add('is-hidden'));
-    document.addEventListener('pointerover', e => {
-      const labelled = e.target.closest('[data-cursor]');
-      const interactive = e.target.closest('a, button, label, input[type=range], .tech-text');
-      if (labelled) { label.textContent = labelled.dataset.cursor; cursor.classList.add('has-label'); cursor.classList.remove('is-link'); }
-      else { cursor.classList.remove('has-label'); cursor.classList.toggle('is-link', !!interactive && !e.target.closest('.tech-text')); }
     });
   }
 

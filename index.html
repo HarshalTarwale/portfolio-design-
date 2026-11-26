@@ -10,11 +10,11 @@
   <meta property="og:type" content="website">
   <title>Harshal Tarwale — Full Stack Developer & UI/UX Designer</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/font-6.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/fonts/syne-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/background.webp" as="image">
   <link rel="stylesheet" href="assets/fonts.css">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="hero.css">
   <link rel="stylesheet" href="site.css">
   <script>
     document.documentElement.classList.add('js');
@@ -26,7 +26,7 @@
   <script src="vendor/js/SplitText.min.js" defer></script>
   <script src="vendor/js/ScrambleTextPlugin.min.js" defer></script>
   <script src="vendor/js/lenis.min.js" defer></script>
-  <script src="tech-text.js" defer></script>
+  <script src="hero-gl.js" defer></script>
   <script src="app.js" defer></script>
   <script src="motion.js" defer></script>
 </head>
@@ -44,7 +44,6 @@
 
   <div class="grain" aria-hidden="true"></div>
   <div class="scroll-progress" aria-hidden="true"><i></i></div>
-  <div class="cursor is-hidden" aria-hidden="true"><div class="cursor-dot"></div><div class="cursor-ring"><span class="cursor-label"></span></div></div>
 
   <div class="site-shell">
     <header class="header">
@@ -55,7 +54,7 @@
         <a href="#about" data-nav>About<span></span></a>
         <a href="#contact" data-nav>Connect<span></span></a>
       </nav>
-      <a class="header-cta" href="#contact"><span class="status-dot" aria-hidden="true"></span>Available for projects</a>
+      <a class="btn btn--fire btn--sm header-cta" href="#contact"><span class="btn-text" data-roll>Let’s talk</span><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
     </header>
 
     <aside class="social-rail" aria-label="Find me online">
@@ -71,38 +70,30 @@
     </aside>
 
     <main id="main">
-      <!-- ============ HERO (Figma 187:103) ============ -->
+      <!-- ============ HERO (Figma 187:103 structure + interactive ember trail) ============ -->
       <section class="hero" id="top" aria-labelledby="hero-heading">
         <div class="hero-art" aria-hidden="true">
-          <img class="background-image" src="assets/background.webp" alt="" fetchpriority="high">
-          <div class="ambient-light"></div>
-          <img class="bottom-fade" src="assets/bottom-fade.png" alt="">
+          <img class="hero-fallback" src="assets/background.webp" alt="" fetchpriority="high">
+          <canvas class="hero-gl"></canvas>
+          <div class="hero-fade"></div>
         </div>
 
         <div class="hero-content">
-          <a class="wordmark" href="#top" aria-label="Harshal Tarwale home">harshal.t<span class="wordmark-dot"></span></a>
-          <h1 id="hero-heading">
-            <span class="sr-only">Let’s make your Website iconic.</span>
-            <span class="tech-text heading-first" data-text="Let’s make your" aria-hidden="true"><span class="text-fallback">Let’s make your</span><canvas></canvas></span>
-            <span class="tech-text heading-second" data-text="Website iconic." data-mobile-text="Website" aria-hidden="true"><span class="text-fallback"><span class="desktop-only">Website iconic.</span><span class="mobile-only">Website</span></span><canvas></canvas></span>
-            <span class="tech-text heading-third mobile-only" data-text="iconic." aria-hidden="true"><span class="text-fallback">iconic.</span><canvas></canvas></span>
+          <a class="wordmark" href="#top" aria-label="Harshal Tarwale home">harshal.t</a>
+          <h1 class="hero-title" id="hero-heading">
+            <span class="hl hl-1"><span class="hl-mask"><span class="hl-in">Let’s make your</span></span></span>
+            <span class="hl hl-2"><span class="hl-mask"><span class="hl-in"><span class="hl-word">Website</span> <span class="hl-word">iconic.</span></span></span></span>
           </h1>
           <div class="hero-actions">
-            <a class="button button-primary magnetic" href="#contact">
-              <span class="button-label"><span>Start a project</span><span aria-hidden="true">Start a project</span></span>
-              <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg><svg viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+            <a class="btn btn--fire magnetic" href="#contact">
+              <span class="btn-text" data-roll>Start a project</span>
+              <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
             </a>
-            <a class="button button-secondary magnetic" href="#work">
-              <span class="button-label"><span>See my work</span><span aria-hidden="true">See my work</span></span>
-              <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></span>
+            <a class="btn btn--ghost magnetic" href="#work">
+              <span class="btn-text" data-roll>See my work</span><sup class="btn-count">11</sup>
+              <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
             </a>
           </div>
-        </div>
-
-        <div class="hero-footer">
-          <p class="hero-role">Full Stack Developer <span>&</span> UI/UX Designer</p>
-          <button class="interaction-hint" type="button" id="play-type"><span class="hint-cross" aria-hidden="true">⌖</span> A little curious? Touch the type.</button>
-          <p class="hero-location"><span class="status-dot" aria-hidden="true"></span> Based in Nagpur. Building worldwide.</p>
         </div>
       </section>
 
@@ -218,9 +209,9 @@
                   <p class="case-sub">Contemporary jadau jewellery · Mumbai</p>
                   <p class="case-desc">A heritage jewellery label needed a store that feels like a boutique, not a catalogue. I designed and built the full collection experience — chandbalis to kadas — with dedicated collection and product pages.</p>
                   <ul class="case-tags"><li>UI/UX design</li><li>Development</li><li>Product pages</li></ul>
-                  <a class="case-link magnetic" href="https://erayah-design.vercel.app" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Visit live site <span aria-hidden="true">↗</span></a>
+                  <a class="btn btn--fire case-link magnetic" href="https://erayah-design.vercel.app" target="_blank" rel="noopener noreferrer"><span class="btn-text" data-roll>Visit live site</span><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
                 </div>
-                <div class="case-visual" data-cursor="Visit">
+                <div class="case-visual">
                   <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>erayah-design.vercel.app</span></div><img src="assets/work/erayah.jpg" alt="ERAYAH homepage: “Heirlooms, reimagined” with a model wearing jadau earrings" loading="lazy" width="1440" height="900"></div>
                   <div class="phone"><img src="assets/work/erayah-m.jpg" alt="" loading="lazy" width="390" height="844"></div>
                 </div>
@@ -238,9 +229,9 @@
                   <p class="case-sub">Couture floral atelier · Dubai</p>
                   <p class="case-desc">A luxury florist built 1:1 from the client’s design — fonts, spacing, hover states and scroll reveals — with a typed product layer ready to plug into Shopify’s Storefront API.</p>
                   <ul class="case-tags"><li>Next.js</li><li>TypeScript</li><li>Tailwind v4</li><li>Shopify-ready</li></ul>
-                  <a class="case-link magnetic" href="https://maisonbotanique.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Visit live site <span aria-hidden="true">↗</span></a>
+                  <a class="btn btn--fire case-link magnetic" href="https://maisonbotanique.vercel.app/" target="_blank" rel="noopener noreferrer"><span class="btn-text" data-roll>Visit live site</span><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
                 </div>
-                <div class="case-visual" data-cursor="Visit">
+                <div class="case-visual">
                   <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>maisonbotanique.vercel.app</span></div><img src="assets/work/maison.jpg" alt="Maison Botanique homepage: “Where her story blossoms” over dark florals" loading="lazy" width="1440" height="900"></div>
                   <div class="phone"><img src="assets/work/maison-m.jpg" alt="" loading="lazy" width="390" height="844"></div>
                 </div>
@@ -258,7 +249,7 @@
                   <p class="case-sub">Multi-tenant ERP for growing businesses</p>
                   <p class="case-desc">Inventory, sales, invoicing, accounting, CRM, HR and manufacturing in one system — with GST, VAT and sales-tax rules built in for India, the US, UK, EU and UAE. Every customer’s data is isolated by Postgres Row-Level Security, with double-entry accounting underneath.</p>
                   <ul class="case-tags"><li>Full stack</li><li>PostgreSQL · RLS</li><li>TypeScript</li><li>Multi-country tax</li></ul>
-                  <a class="case-link magnetic" href="https://glide-6lh8.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor="Open">Open the app <span aria-hidden="true">↗</span></a>
+                  <a class="btn btn--fire case-link magnetic" href="https://glide-6lh8.vercel.app/" target="_blank" rel="noopener noreferrer"><span class="btn-text" data-roll>Open the app</span><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
                 </div>
                 <div class="case-visual case-visual--app" aria-label="Illustration of the Glide interface" role="img">
                   <div class="app">
@@ -299,9 +290,9 @@
                   <p class="case-sub">Marketing agency · Nagpur</p>
                   <p class="case-desc">A redesign with a loud, high-energy identity — “Marketing, but make it fun” — and results-led copy across performance marketing, outdoor and social media services.</p>
                   <ul class="case-tags"><li>Brand-led UI</li><li>Copy & layout</li><li>Development</li></ul>
-                  <a class="case-link magnetic" href="https://harshaltarwale.github.io/BB--design-v2/" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Visit live site <span aria-hidden="true">↗</span></a>
+                  <a class="btn btn--fire case-link magnetic" href="https://harshaltarwale.github.io/BB--design-v2/" target="_blank" rel="noopener noreferrer"><span class="btn-text" data-roll>Visit live site</span><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
                 </div>
-                <div class="case-visual" data-cursor="Visit">
+                <div class="case-visual">
                   <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>backkbenchers</span></div><img src="assets/work/backkbenchers.jpg" alt="BackkBenchers homepage: “You lean back. We run the whole show.”" loading="lazy" width="1440" height="900"></div>
                   <div class="phone"><img src="assets/work/backkbenchers-m.jpg" alt="" loading="lazy" width="390" height="844"></div>
                 </div>
@@ -317,13 +308,13 @@
             <p class="label">Hover to preview — click to visit</p>
           </div>
           <ul class="index-list">
-            <li><a href="https://tech-monkeys.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/techmonkeys.jpg" data-cursor="Visit"><span class="ix-n">05</span><span class="ix-name">Tech Monkeys</span><span class="ix-sector">Digital studio · Dubai</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/techmonkeys.jpg" alt="" loading="lazy"></a></li>
-            <li><a href="https://da-reality.vercel.app" target="_blank" rel="noopener noreferrer" data-preview="assets/work/dareality.jpg" data-cursor="Visit"><span class="ix-n">06</span><span class="ix-name">Da Realty</span><span class="ix-sector">Luxury real estate · Dubai</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/dareality.jpg" alt="" loading="lazy"></a></li>
-            <li><a href="https://dimera.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/dimera.jpg" data-cursor="Visit"><span class="ix-n">07</span><span class="ix-name">Dimera</span><span class="ix-sector">Beauty atelier</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/dimera.jpg" alt="" loading="lazy"></a></li>
-            <li><a href="https://crunch-two-psi.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/crunch.jpg" data-cursor="Visit"><span class="ix-n">08</span><span class="ix-name">Khakhra Republic</span><span class="ix-sector">D2C snacks · UAE</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/crunch.jpg" alt="" loading="lazy"></a></li>
-            <li><a href="https://advenco.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/advenco.jpg" data-cursor="Visit"><span class="ix-n">09</span><span class="ix-name">Advenco</span><span class="ix-sector">Blinds & shutters · UK</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/advenco.jpg" alt="" loading="lazy"></a></li>
-            <li><a href="https://frontend-flax-chi-52.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/ppe.jpg" data-cursor="Visit"><span class="ix-n">10</span><span class="ix-name">PPE Compliance</span><span class="ix-sector">AI safety monitoring</span><span class="ix-stack">YOLOv8 · FastAPI · React</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/ppe.jpg" alt="" loading="lazy"></a></li>
-            <li><a href="https://harshaltarwale.github.io/Vedic-Group-of-Institutions/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/vedic.jpg" data-cursor="Visit"><span class="ix-n">11</span><span class="ix-name">Vedic Group</span><span class="ix-sector">Education</span><span class="ix-stack">React · Vite</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/vedic.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://tech-monkeys.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/techmonkeys.jpg"><span class="ix-n">05</span><span class="ix-name">Tech Monkeys</span><span class="ix-sector">Digital studio · Dubai</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/techmonkeys.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://da-reality.vercel.app" target="_blank" rel="noopener noreferrer" data-preview="assets/work/dareality.jpg"><span class="ix-n">06</span><span class="ix-name">Da Realty</span><span class="ix-sector">Luxury real estate · Dubai</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/dareality.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://dimera.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/dimera.jpg"><span class="ix-n">07</span><span class="ix-name">Dimera</span><span class="ix-sector">Beauty atelier</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/dimera.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://crunch-two-psi.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/crunch.jpg"><span class="ix-n">08</span><span class="ix-name">Khakhra Republic</span><span class="ix-sector">D2C snacks · UAE</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/crunch.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://advenco.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/advenco.jpg"><span class="ix-n">09</span><span class="ix-name">Advenco</span><span class="ix-sector">Blinds & shutters · UK</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/advenco.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://frontend-flax-chi-52.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/ppe.jpg"><span class="ix-n">10</span><span class="ix-name">PPE Compliance</span><span class="ix-sector">AI safety monitoring</span><span class="ix-stack">YOLOv8 · FastAPI · React</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/ppe.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://harshaltarwale.github.io/Vedic-Group-of-Institutions/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/vedic.jpg"><span class="ix-n">11</span><span class="ix-name">Vedic Group</span><span class="ix-sector">Education</span><span class="ix-stack">React · Vite</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/vedic.jpg" alt="" loading="lazy"></a></li>
           </ul>
           <a class="link-arrow link-arrow--muted" href="https://github.com/HarshalTarwale" target="_blank" rel="noopener noreferrer"><span>Everything else lives on GitHub</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
         </div>
@@ -384,7 +375,7 @@
                 <h3>One person, zero handoff</h3>
                 <p>What I design is exactly what gets built. Drag to see both sides.</p>
               </div>
-              <div class="compare" data-cursor="Drag" style="--pos:50%">
+              <div class="compare" style="--pos:50%">
                 <div class="compare-pane compare-design" aria-hidden="true">
                   <div class="mock-card">
                     <span class="mock-guide mock-guide--x"></span><span class="mock-guide mock-guide--y"></span>
@@ -423,7 +414,7 @@
                 <h3>Motion that feels expensive</h3>
                 <p>Smooth scroll, reveals and micro-interactions — tuned, never heavy.</p>
               </div>
-              <div class="motion-play" data-cursor="Play">
+              <div class="motion-play">
                 <span class="mp-word" data-mp>Hover&nbsp;me</span>
                 <span class="mp-orb" aria-hidden="true"></span>
               </div>
@@ -510,8 +501,8 @@
             </fieldset>
             <label for="project-details">The idea <span class="optional">(optional)</span></label>
             <textarea id="project-details" name="details" rows="3" placeholder="A little about what you have in mind…" maxlength="1500"></textarea>
-            <button type="submit" class="send-button magnetic">
-              <span>Send on WhatsApp</span><span class="send-icon" aria-hidden="true">↗</span>
+            <button type="submit" class="btn btn--ink btn--block send-button magnetic">
+              <span class="btn-text" data-roll>Send on WhatsApp</span><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
             </button>
             <p class="form-note">Opens WhatsApp with your message ready to send.</p>
           </form>

@@ -1,4 +1,5 @@
 {
+  "webgl": true,
   "lazyNotLoaded": [],
   "result": "pass"
 }
