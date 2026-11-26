@@ -26,7 +26,7 @@
       frontImage: 'assets/lanyard/card-front.png',
       backImage: 'assets/lanyard/card-back.png',
       strapImage: 'assets/lanyard/strap.jpg',
-      finish: 'glossy',
+      finish: 'matte',
       cardColor: '#0b0908',
       strapColor: '#101010',
       metal: 'silver',
