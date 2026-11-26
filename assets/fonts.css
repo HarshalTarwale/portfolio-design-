@@ -40,3 +40,32 @@
   font-display: swap;
   src: url(./font-6.ttf) format('truetype');
 }
+/* Syne variable (400–800) for display type beyond the hero's 700 cut. */
+@font-face {
+  font-family: 'Syne Var';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(./fonts/syne-var.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./fonts/instrument-serif.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./fonts/instrument-serif-italic.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url(./fonts/jetbrains-mono.woff2) format('woff2');
+}

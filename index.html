@@ -4,25 +4,58 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080806">
-  <meta name="description" content="Harshal Tarwale — Full Stack Developer & UI/UX Designer. From the first Figma frame to the final deploy. Based in Nagpur, building worldwide.">
-  <title>Harshal Tarwale — Design. Develop. Make it iconic.</title>
+  <meta name="description" content="Harshal Tarwale — Full Stack Developer & UI/UX Designer. Websites, online stores and web apps, from the first Figma frame to the final deploy. Based in Nagpur, building for India, Dubai and the UK.">
+  <meta property="og:title" content="Harshal Tarwale — Let’s make your website iconic.">
+  <meta property="og:description" content="Full Stack Developer & UI/UX Designer. One person, zero handoff — from Figma to a fast, secure, live product.">
+  <meta property="og:type" content="website">
+  <title>Harshal Tarwale — Full Stack Developer & UI/UX Designer</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/font-6.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/syne-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/background.webp" as="image">
   <link rel="stylesheet" href="assets/fonts.css">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="site.css">
+  <script>
+    document.documentElement.classList.add('js');
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+    try { if (sessionStorage.getItem('ht-visited')) document.documentElement.classList.add('return-visit'); } catch (e) {}
+  </script>
+  <script src="vendor/js/gsap.min.js" defer></script>
+  <script src="vendor/js/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/js/SplitText.min.js" defer></script>
+  <script src="vendor/js/ScrambleTextPlugin.min.js" defer></script>
+  <script src="vendor/js/lenis.min.js" defer></script>
   <script src="tech-text.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="motion.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Preloader: only rendered visibly when JS + motion are available. -->
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader-top"><span>harshal.t</span><span>Portfolio ©2026</span></div>
+    <div class="preloader-count"><span class="count-num">0</span><span class="count-pct">%</span></div>
+    <div class="preloader-bottom">
+      <span>Design</span><span class="preloader-bar"><i></i></span><span>Develop</span>
+    </div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><i></i></div>
+  <div class="cursor is-hidden" aria-hidden="true"><div class="cursor-dot"></div><div class="cursor-ring"><span class="cursor-label"></span></div></div>
+
   <div class="site-shell">
     <header class="header">
+      <a class="header-logo" href="#top" aria-label="Harshal Tarwale — back to top">harshal.t</a>
       <nav aria-label="Main navigation">
-        <button type="button" data-panel="services">Services<span></span></button>
-        <button type="button" data-panel="work">Work<span></span></button>
-        <button type="button" data-panel="about">About<span></span></button>
-        <button type="button" data-panel="connect">Connect<span></span></button>
+        <a href="#services" data-nav>Services<span></span></a>
+        <a href="#work" data-nav>Work<span></span></a>
+        <a href="#about" data-nav>About<span></span></a>
+        <a href="#contact" data-nav>Connect<span></span></a>
       </nav>
+      <a class="header-cta" href="#contact"><span class="status-dot" aria-hidden="true"></span>Available for projects</a>
     </header>
 
     <aside class="social-rail" aria-label="Find me online">
@@ -38,15 +71,16 @@
     </aside>
 
     <main id="main">
-      <section class="hero" aria-labelledby="hero-heading">
+      <!-- ============ HERO (Figma 187:103) ============ -->
+      <section class="hero" id="top" aria-labelledby="hero-heading">
         <div class="hero-art" aria-hidden="true">
-          <img class="background-image" src="assets/background.png" alt="" fetchpriority="high">
+          <img class="background-image" src="assets/background.webp" alt="" fetchpriority="high">
           <div class="ambient-light"></div>
           <img class="bottom-fade" src="assets/bottom-fade.png" alt="">
         </div>
 
         <div class="hero-content">
-          <a class="wordmark" href="./" aria-label="Harshal Tarwale home">harshal.t<span class="wordmark-dot"></span></a>
+          <a class="wordmark" href="#top" aria-label="Harshal Tarwale home">harshal.t<span class="wordmark-dot"></span></a>
           <h1 id="hero-heading">
             <span class="sr-only">Let’s make your Website iconic.</span>
             <span class="tech-text heading-first" data-text="Let’s make your" aria-hidden="true"><span class="text-fallback">Let’s make your</span><canvas></canvas></span>
@@ -54,14 +88,14 @@
             <span class="tech-text heading-third mobile-only" data-text="iconic." aria-hidden="true"><span class="text-fallback">iconic.</span><canvas></canvas></span>
           </h1>
           <div class="hero-actions">
-            <button class="button button-primary magnetic" type="button" data-panel="connect">
+            <a class="button button-primary magnetic" href="#contact">
               <span class="button-label"><span>Start a project</span><span aria-hidden="true">Start a project</span></span>
               <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg><svg viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
-            </button>
-            <button class="button button-secondary magnetic" type="button" data-panel="work">
+            </a>
+            <a class="button button-secondary magnetic" href="#work">
               <span class="button-label"><span>See my work</span><span aria-hidden="true">See my work</span></span>
               <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></span>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -71,52 +105,448 @@
           <p class="hero-location"><span class="status-dot" aria-hidden="true"></span> Based in Nagpur. Building worldwide.</p>
         </div>
       </section>
-      <footer class="page-footer"><a class="footer-signature" href="./">harshal.t</a><p>From first frame to final deploy.</p><button type="button" data-panel="connect">Have something in mind? <span aria-hidden="true">↗</span></button></footer>
+
+      <!-- ============ TAPE MARQUEE ============ -->
+      <section class="tape" aria-label="What I build">
+        <div class="tape-row tape-row--fire" data-marquee="1">
+          <div class="tape-track">
+            <span>Websites</span><i>✺</i><span>Online stores</span><i>✺</i><span>Web apps</span><i>✺</i><span>UI/UX design</span><i>✺</i><span>Dashboards</span><i>✺</i><span>Landing pages</span><i>✺</i>
+          </div>
+        </div>
+        <div class="tape-row tape-row--dark" data-marquee="-1" aria-hidden="true">
+          <div class="tape-track">
+            <span>Figma</span><i>→</i><span class="ol">Code</span><i>→</i><span>Live</span><i>✺</i><span>Design</span><i>×</i><span class="ol">Develop</span><i>✺</i><span>Figma</span><i>→</i><span class="ol">Code</span><i>→</i><span>Live</span><i>✺</i>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ABOUT / STATEMENT ============ -->
+      <section class="section about lined" id="about" aria-labelledby="about-title">
+        <div class="wrap about-grid">
+          <aside class="about-side">
+            <p class="label" data-scramble>(01) — Hello</p>
+            <div class="id-card">
+              <div class="id-card-top"><span class="status-dot" aria-hidden="true"></span> Open for new projects</div>
+              <p class="id-name">Harshal Tarwale</p>
+              <p class="id-role">Full Stack Developer<br>& UI/UX Designer</p>
+              <div class="id-meta">
+                <span>Nagpur, India</span>
+                <span><time class="clock" data-tz="Asia/Kolkata">--:--</time> IST</span>
+              </div>
+            </div>
+          </aside>
+          <div class="about-main">
+            <h2 id="about-title" class="sr-only">About Harshal</h2>
+            <p class="statement" data-blur-reveal>
+              I’m Harshal — a designer who codes, and a developer who designs.
+              I take your idea from the first <span class="chip-img"><img src="assets/work/maison.jpg" alt="" loading="lazy"></span> Figma frame to a fast, secure, <em>live</em> product: websites, online stores and web apps for brands in India, Dubai and the UK.
+              One person. <span class="chip-img"><img src="assets/work/erayah.jpg" alt="" loading="lazy"></span> Zero handoff. Nothing lost in <em>translation.</em>
+            </p>
+            <a class="link-arrow magnetic" href="#work"><span>See what I’ve shipped</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a>
+          </div>
+        </div>
+
+        <div class="wrap stats" role="list">
+          <div class="stat" role="listitem"><p class="stat-num"><span data-count="13">13</span><sup>+</sup></p><p class="stat-label">Live builds on the web</p></div>
+          <div class="stat" role="listitem"><p class="stat-num"><span data-count="3">3</span></p><p class="stat-label">Countries — India, UAE, UK</p></div>
+          <div class="stat" role="listitem"><p class="stat-num"><span data-count="2">2</span></p><p class="stat-label">Disciplines — design and engineering</p></div>
+          <div class="stat" role="listitem"><p class="stat-num"><span data-count="1">1</span></p><p class="stat-label">Point of contact — the person building it</p></div>
+        </div>
+      </section>
+
+      <!-- ============ SERVICES (light) ============ -->
+      <section class="section services" id="services" aria-labelledby="services-title">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="label" data-scramble>(02) — Services</p>
+            <h2 id="services-title" class="display" data-split>What I <em>do</em> for you</h2>
+            <p class="section-lede">Everything your product needs to look sharp, load fast and win customers — designed and engineered by the same pair of hands.</p>
+          </div>
+
+          <ol class="service-rows">
+            <li class="service-row" data-preview="assets/work/maison.jpg">
+              <span class="sr-num">01</span>
+              <h3 class="sr-title">UI/UX Design</h3>
+              <p class="sr-desc">Clear user journeys, wireframes and polished Figma design systems — designed with the build already in mind.</p>
+              <ul class="sr-tags"><li>Figma</li><li>Prototyping</li><li>Design systems</li><li>Mobile-first</li></ul>
+              <span class="sr-arrow" aria-hidden="true">↗</span>
+            </li>
+            <li class="service-row" data-preview="assets/work/techmonkeys.jpg">
+              <span class="sr-num">02</span>
+              <h3 class="sr-title">Websites</h3>
+              <p class="sr-desc">Fast, responsive brand sites and landing pages with motion that feels expensive and SEO that gets you found.</p>
+              <ul class="sr-tags"><li>Next.js</li><li>React</li><li>GSAP</li><li>SEO</li></ul>
+              <span class="sr-arrow" aria-hidden="true">↗</span>
+            </li>
+            <li class="service-row" data-preview="assets/work/erayah.jpg">
+              <span class="sr-num">03</span>
+              <h3 class="sr-title">E-commerce</h3>
+              <p class="sr-desc">Online stores built around your brand — collections, product pages and carts, ready for Shopify or a custom checkout.</p>
+              <ul class="sr-tags"><li>Storefronts</li><li>Shopify-ready</li><li>Headless</li><li>Catalogues</li></ul>
+              <span class="sr-arrow" aria-hidden="true">↗</span>
+            </li>
+            <li class="service-row" data-preview="assets/work/ppe.jpg">
+              <span class="sr-num">04</span>
+              <h3 class="sr-title">Web apps & dashboards</h3>
+              <p class="sr-desc">Full-stack products — auth, databases, APIs, admin panels and real-time dashboards. Secure, typed and tested.</p>
+              <ul class="sr-tags"><li>TypeScript</li><li>PostgreSQL</li><li>APIs</li><li>Real-time</li></ul>
+              <span class="sr-arrow" aria-hidden="true">↗</span>
+            </li>
+          </ol>
+        </div>
+        <div class="service-preview" aria-hidden="true"><img alt=""></div>
+      </section>
+
+      <!-- ============ WORK ============ -->
+      <section class="section work lined" id="work" aria-labelledby="work-title">
+        <div class="wrap section-head section-head--split">
+          <div>
+            <p class="label" data-scramble>(03) — Selected work</p>
+            <h2 id="work-title" class="display" data-split>Work that <em>works.</em></h2>
+          </div>
+          <p class="section-lede">Brands, stores and products live on the web right now. A few favourites — each one designed and built end to end.</p>
+        </div>
+
+        <div class="stack">
+          <!-- 01 ERAYAH -->
+          <article class="case" style="--tint:#2a1320;--tint-2:#b08a4e">
+            <div class="case-inner">
+              <header class="case-top"><span>01 / 04</span><span>E-commerce</span><span>2026</span></header>
+              <div class="case-body">
+                <div class="case-info">
+                  <h3 class="case-title">ERAYAH</h3>
+                  <p class="case-sub">Contemporary jadau jewellery · Mumbai</p>
+                  <p class="case-desc">A heritage jewellery label needed a store that feels like a boutique, not a catalogue. I designed and built the full collection experience — chandbalis to kadas — with dedicated collection and product pages.</p>
+                  <ul class="case-tags"><li>UI/UX design</li><li>Development</li><li>Product pages</li></ul>
+                  <a class="case-link magnetic" href="https://erayah-design.vercel.app" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Visit live site <span aria-hidden="true">↗</span></a>
+                </div>
+                <div class="case-visual" data-cursor="Visit">
+                  <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>erayah-design.vercel.app</span></div><img src="assets/work/erayah.jpg" alt="ERAYAH homepage: “Heirlooms, reimagined” with a model wearing jadau earrings" loading="lazy" width="1440" height="900"></div>
+                  <div class="phone"><img src="assets/work/erayah-m.jpg" alt="" loading="lazy" width="390" height="844"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 02 MAISON BOTANIQUE -->
+          <article class="case" style="--tint:#141a16;--tint-2:#a87a55">
+            <div class="case-inner">
+              <header class="case-top"><span>02 / 04</span><span>Luxury brand site</span><span>2026</span></header>
+              <div class="case-body">
+                <div class="case-info">
+                  <h3 class="case-title">Maison Botanique</h3>
+                  <p class="case-sub">Couture floral atelier · Dubai</p>
+                  <p class="case-desc">A luxury florist built 1:1 from the client’s design — fonts, spacing, hover states and scroll reveals — with a typed product layer ready to plug into Shopify’s Storefront API.</p>
+                  <ul class="case-tags"><li>Next.js</li><li>TypeScript</li><li>Tailwind v4</li><li>Shopify-ready</li></ul>
+                  <a class="case-link magnetic" href="https://maisonbotanique.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Visit live site <span aria-hidden="true">↗</span></a>
+                </div>
+                <div class="case-visual" data-cursor="Visit">
+                  <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>maisonbotanique.vercel.app</span></div><img src="assets/work/maison.jpg" alt="Maison Botanique homepage: “Where her story blossoms” over dark florals" loading="lazy" width="1440" height="900"></div>
+                  <div class="phone"><img src="assets/work/maison-m.jpg" alt="" loading="lazy" width="390" height="844"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 03 GLIDE -->
+          <article class="case case--product" style="--tint:#121218;--tint-2:#ff6a1f">
+            <div class="case-inner">
+              <header class="case-top"><span>03 / 04</span><span>SaaS product</span><span>2026</span></header>
+              <div class="case-body">
+                <div class="case-info">
+                  <h3 class="case-title">Glide<sup>✦</sup></h3>
+                  <p class="case-sub">Multi-tenant ERP for growing businesses</p>
+                  <p class="case-desc">Inventory, sales, invoicing, accounting, CRM, HR and manufacturing in one system — with GST, VAT and sales-tax rules built in for India, the US, UK, EU and UAE. Every customer’s data is isolated by Postgres Row-Level Security, with double-entry accounting underneath.</p>
+                  <ul class="case-tags"><li>Full stack</li><li>PostgreSQL · RLS</li><li>TypeScript</li><li>Multi-country tax</li></ul>
+                  <a class="case-link magnetic" href="https://glide-6lh8.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor="Open">Open the app <span aria-hidden="true">↗</span></a>
+                </div>
+                <div class="case-visual case-visual--app" aria-label="Illustration of the Glide interface" role="img">
+                  <div class="app">
+                    <aside class="app-side">
+                      <p class="app-logo">Glide<sup>✦</sup></p>
+                      <ul><li>Dashboard</li><li>Inventory</li><li class="on">Sales</li><li>Invoices</li><li>Accounting</li><li>CRM</li><li>Procurement</li><li>HR</li><li>Manufacturing</li></ul>
+                    </aside>
+                    <div class="app-main">
+                      <div class="app-bar"><span>Invoice</span><span class="pill">GST · India</span><span class="pill pill--ok">RLS isolated</span></div>
+                      <div class="app-cards">
+                        <div class="app-card"><span>Stock</span><b class="bar-anim" style="--w:72%"><i></i></b></div>
+                        <div class="app-card"><span>Receivables</span><b class="bar-anim" style="--w:48%"><i></i></b></div>
+                        <div class="app-card"><span>Orders</span><b class="bar-anim" style="--w:86%"><i></i></b></div>
+                      </div>
+                      <div class="app-ledger">
+                        <p class="app-ledger-head"><span>Journal entry</span><span>Dr</span><span>Cr</span></p>
+                        <p><span>Accounts receivable</span><span>●</span><span></span></p>
+                        <p><span>Sales revenue</span><span></span><span>●</span></p>
+                        <p><span>Tax payable</span><span></span><span>●</span></p>
+                        <p class="app-ledger-foot"><span>Balanced</span><span class="tick">✓</span><span></span></p>
+                      </div>
+                      <div class="app-chart" aria-hidden="true"><i style="--h:30%"></i><i style="--h:45%"></i><i style="--h:38%"></i><i style="--h:60%"></i><i style="--h:52%"></i><i style="--h:74%"></i><i style="--h:66%"></i><i style="--h:88%"></i></div>
+                    </div>
+                  </div>
+                  <p class="app-caption">Interface illustration</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 04 BACKKBENCHERS -->
+          <article class="case" style="--tint:#1c1410;--tint-2:#e8392a">
+            <div class="case-inner">
+              <header class="case-top"><span>04 / 04</span><span>Agency redesign</span><span>2026</span></header>
+              <div class="case-body">
+                <div class="case-info">
+                  <h3 class="case-title">BackkBenchers</h3>
+                  <p class="case-sub">Marketing agency · Nagpur</p>
+                  <p class="case-desc">A redesign with a loud, high-energy identity — “Marketing, but make it fun” — and results-led copy across performance marketing, outdoor and social media services.</p>
+                  <ul class="case-tags"><li>Brand-led UI</li><li>Copy & layout</li><li>Development</li></ul>
+                  <a class="case-link magnetic" href="https://harshaltarwale.github.io/BB--design-v2/" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Visit live site <span aria-hidden="true">↗</span></a>
+                </div>
+                <div class="case-visual" data-cursor="Visit">
+                  <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span>backkbenchers</span></div><img src="assets/work/backkbenchers.jpg" alt="BackkBenchers homepage: “You lean back. We run the whole show.”" loading="lazy" width="1440" height="900"></div>
+                  <div class="phone"><img src="assets/work/backkbenchers-m.jpg" alt="" loading="lazy" width="390" height="844"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- More builds -->
+        <div class="wrap index">
+          <div class="index-head">
+            <h3 class="index-title">More <em>builds</em></h3>
+            <p class="label">Hover to preview — click to visit</p>
+          </div>
+          <ul class="index-list">
+            <li><a href="https://tech-monkeys.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/techmonkeys.jpg" data-cursor="Visit"><span class="ix-n">05</span><span class="ix-name">Tech Monkeys</span><span class="ix-sector">Digital studio · Dubai</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/techmonkeys.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://da-reality.vercel.app" target="_blank" rel="noopener noreferrer" data-preview="assets/work/dareality.jpg" data-cursor="Visit"><span class="ix-n">06</span><span class="ix-name">Da Realty</span><span class="ix-sector">Luxury real estate · Dubai</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/dareality.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://dimera.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/dimera.jpg" data-cursor="Visit"><span class="ix-n">07</span><span class="ix-name">Dimera</span><span class="ix-sector">Beauty atelier</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/dimera.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://crunch-two-psi.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/crunch.jpg" data-cursor="Visit"><span class="ix-n">08</span><span class="ix-name">Khakhra Republic</span><span class="ix-sector">D2C snacks · UAE</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/crunch.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://advenco.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/advenco.jpg" data-cursor="Visit"><span class="ix-n">09</span><span class="ix-name">Advenco</span><span class="ix-sector">Blinds & shutters · UK</span><span class="ix-stack">Next.js · TypeScript</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/advenco.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://frontend-flax-chi-52.vercel.app/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/ppe.jpg" data-cursor="Visit"><span class="ix-n">10</span><span class="ix-name">PPE Compliance</span><span class="ix-sector">AI safety monitoring</span><span class="ix-stack">YOLOv8 · FastAPI · React</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/ppe.jpg" alt="" loading="lazy"></a></li>
+            <li><a href="https://harshaltarwale.github.io/Vedic-Group-of-Institutions/" target="_blank" rel="noopener noreferrer" data-preview="assets/work/vedic.jpg" data-cursor="Visit"><span class="ix-n">11</span><span class="ix-name">Vedic Group</span><span class="ix-sector">Education</span><span class="ix-stack">React · Vite</span><span class="ix-go" aria-hidden="true">↗</span><img class="ix-thumb" src="assets/work/vedic.jpg" alt="" loading="lazy"></a></li>
+          </ul>
+          <a class="link-arrow link-arrow--muted" href="https://github.com/HarshalTarwale" target="_blank" rel="noopener noreferrer"><span>Everything else lives on GitHub</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+        </div>
+        <div class="index-preview" aria-hidden="true"><img alt=""></div>
+      </section>
+
+      <!-- ============ PROCESS (pinned horizontal) ============ -->
+      <section class="section process" id="process" aria-labelledby="process-title">
+        <div class="process-pin">
+          <div class="wrap process-head">
+            <p class="label" data-scramble>(04) — Process</p>
+            <h2 id="process-title" class="display" data-split>From idea to <em>live</em>, in four steps.</h2>
+          </div>
+          <div class="process-rail">
+            <div class="process-line" aria-hidden="true"><i></i></div>
+            <ol class="process-track">
+              <li class="step">
+                <span class="step-n">01</span>
+                <h3>Discover</h3>
+                <p>A quick call to understand your business, goals and audience. You get a clear scope, timeline and quote — no jargon.</p>
+                <p class="step-out"><span>You get</span> Scope & plan</p>
+              </li>
+              <li class="step">
+                <span class="step-n">02</span>
+                <h3>Design</h3>
+                <p>Wireframes, then high-fidelity Figma designs for desktop and mobile. You review, I refine — until it feels unmistakably yours.</p>
+                <p class="step-out"><span>You get</span> Approved Figma design</p>
+              </li>
+              <li class="step">
+                <span class="step-n">03</span>
+                <h3>Build</h3>
+                <p>Clean, fast, accessible code. Responsive on every screen, SEO-ready, and animated where it makes the brand memorable.</p>
+                <p class="step-out"><span>You get</span> A staging link to test</p>
+              </li>
+              <li class="step">
+                <span class="step-n">04</span>
+                <h3>Launch</h3>
+                <p>Domain, hosting, analytics and a clean handover — so the site is yours to run, and easy to grow.</p>
+                <p class="step-out"><span>You get</span> A live website</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ WHY ME (bento) ============ -->
+      <section class="section why lined" id="why" aria-labelledby="why-title">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="label" data-scramble>(05) — Why me</p>
+            <h2 id="why-title" class="display" data-split>Designer’s eye. <em>Developer’s</em> brain.</h2>
+          </div>
+
+          <div class="bento">
+            <!-- Design ↔ Code compare -->
+            <div class="tile tile--compare">
+              <div class="tile-copy">
+                <h3>One person, zero handoff</h3>
+                <p>What I design is exactly what gets built. Drag to see both sides.</p>
+              </div>
+              <div class="compare" data-cursor="Drag" style="--pos:50%">
+                <div class="compare-pane compare-design" aria-hidden="true">
+                  <div class="mock-card">
+                    <span class="mock-guide mock-guide--x"></span><span class="mock-guide mock-guide--y"></span>
+                    <span class="mock-chip">New collection</span>
+                    <p class="mock-h">Heirlooms,<br><em>reimagined</em></p>
+                    <span class="mock-btn">Shop now →</span>
+                    <span class="mock-spec mock-spec--a">24</span><span class="mock-spec mock-spec--b">Syne 700 / 44</span>
+                  </div>
+                  <span class="compare-tag">Figma</span>
+                </div>
+                <div class="compare-pane compare-code" aria-hidden="true">
+<pre><code><b>export function</b> <i>Hero</i>() {
+  <b>return</b> (
+    &lt;<i>section</i> className=<s>"hero"</s>&gt;
+      &lt;<i>Chip</i>&gt;New collection&lt;/<i>Chip</i>&gt;
+      &lt;<i>h1</i>&gt;
+        Heirlooms,
+        &lt;<i>em</i>&gt;reimagined&lt;/<i>em</i>&gt;
+      &lt;/<i>h1</i>&gt;
+      &lt;<i>Button</i> href=<s>"/shop"</s>&gt;
+        Shop now →
+      &lt;/<i>Button</i>&gt;
+    &lt;/<i>section</i>&gt;
+  );
+}</code></pre>
+                  <span class="compare-tag">Code</span>
+                </div>
+                <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare the design and the code">
+                <span class="compare-handle" aria-hidden="true"><i>⟷</i></span>
+              </div>
+            </div>
+
+            <!-- Motion -->
+            <div class="tile tile--motion">
+              <div class="tile-copy">
+                <h3>Motion that feels expensive</h3>
+                <p>Smooth scroll, reveals and micro-interactions — tuned, never heavy.</p>
+              </div>
+              <div class="motion-play" data-cursor="Play">
+                <span class="mp-word" data-mp>Hover&nbsp;me</span>
+                <span class="mp-orb" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <!-- Secure -->
+            <div class="tile tile--secure">
+              <div class="tile-copy">
+                <h3>Secure & tested</h3>
+                <p>The boring things, done properly.</p>
+              </div>
+              <ul class="checks">
+                <li><span>✓</span> Typed end to end</li>
+                <li><span>✓</span> Row-level data isolation</li>
+                <li><span>✓</span> Validated forms & APIs</li>
+                <li><span>✓</span> Accessible by default</li>
+              </ul>
+            </div>
+
+            <!-- Time zones -->
+            <div class="tile tile--zones">
+              <div class="tile-copy">
+                <h3>Working across time zones</h3>
+                <p>Clients in India, the UAE and the UK.</p>
+              </div>
+              <ul class="zones">
+                <li><span>Nagpur</span><time class="clock" data-tz="Asia/Kolkata">--:--</time></li>
+                <li><span>Dubai</span><time class="clock" data-tz="Asia/Dubai">--:--</time></li>
+                <li><span>London</span><time class="clock" data-tz="Europe/London">--:--</time></li>
+              </ul>
+            </div>
+
+            <!-- Stack -->
+            <div class="tile tile--stack">
+              <div class="tile-copy">
+                <h3>The toolkit</h3>
+                <p>Modern, proven tools — picked for your project, not for the trend.</p>
+              </div>
+              <div class="stack-rows" aria-label="Tools I use">
+                <div class="stack-row" data-marquee="1"><div class="tape-track"><span>Figma</span><span>Next.js</span><span>React</span><span>TypeScript</span><span>Tailwind CSS</span><span>GSAP</span><span>Framer Motion</span><span>Lenis</span></div></div>
+                <div class="stack-row" data-marquee="-1"><div class="tape-track"><span>PostgreSQL</span><span>Node.js</span><span>FastAPI</span><span>Python</span><span>WebSockets</span><span>Shopify</span><span>Vite</span><span>Vercel</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CONTACT (brand gradient) ============ -->
+      <section class="section contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact-bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+        <div class="wrap contact-grid">
+          <div class="contact-copy">
+            <p class="label label--dark" data-scramble>(06) — Your next big thing</p>
+            <h2 id="contact-title" class="contact-title" data-split>Let’s make your website <em>iconic.</em></h2>
+            <p class="contact-lede">A fresh idea, an ambitious rebuild, or something you can’t quite put into words yet. Tell me about it — we’ll start there.</p>
+            <ul class="contact-links">
+              <li><a href="https://wa.me/917028235485" target="_blank" rel="noopener noreferrer"><span>WhatsApp</span><span aria-hidden="true">↗</span></a></li>
+              <li><a href="https://www.linkedin.com/in/harshaltarwale/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><span aria-hidden="true">↗</span></a></li>
+              <li><a href="https://www.instagram.com/harshal.tarwale/" target="_blank" rel="noopener noreferrer"><span>Instagram</span><span aria-hidden="true">↗</span></a></li>
+              <li><a href="https://github.com/HarshalTarwale" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span aria-hidden="true">↗</span></a></li>
+            </ul>
+          </div>
+
+          <form id="project-form" class="brief" novalidate>
+            <p class="brief-head"><span>Project brief</span><span>~ 1 min</span></p>
+            <label for="project-name">What should I call you?</label>
+            <input id="project-name" name="name" placeholder="Your name" autocomplete="given-name" maxlength="80" required>
+            <fieldset>
+              <legend>What are we making?</legend>
+              <div class="project-options">
+                <label><input type="radio" name="service" value="Website" checked><span>Website</span></label>
+                <label><input type="radio" name="service" value="E-commerce store"><span>E-commerce</span></label>
+                <label><input type="radio" name="service" value="Web app"><span>Web app</span></label>
+                <label><input type="radio" name="service" value="UI/UX design"><span>UI/UX design</span></label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>When do you need it?</legend>
+              <div class="project-options">
+                <label><input type="radio" name="timeline" value="as soon as possible"><span>ASAP</span></label>
+                <label><input type="radio" name="timeline" value="in 1–2 months" checked><span>1–2 months</span></label>
+                <label><input type="radio" name="timeline" value="whenever it’s right"><span>Flexible</span></label>
+              </div>
+            </fieldset>
+            <label for="project-details">The idea <span class="optional">(optional)</span></label>
+            <textarea id="project-details" name="details" rows="3" placeholder="A little about what you have in mind…" maxlength="1500"></textarea>
+            <button type="submit" class="send-button magnetic">
+              <span>Send on WhatsApp</span><span class="send-icon" aria-hidden="true">↗</span>
+            </button>
+            <p class="form-note">Opens WhatsApp with your message ready to send.</p>
+          </form>
+        </div>
+      </section>
     </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+      <div class="wrap footer-top">
+        <div class="footer-col">
+          <p class="label">Menu</p>
+          <a href="#services">Services</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Connect</a>
+        </div>
+        <div class="footer-col">
+          <p class="label">Socials</p>
+          <a href="https://www.linkedin.com/in/harshaltarwale/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://www.instagram.com/harshal.tarwale/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://github.com/HarshalTarwale" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://wa.me/917028235485" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+        <div class="footer-col">
+          <p class="label">Local time</p>
+          <p class="footer-time"><time class="clock" data-tz="Asia/Kolkata" data-seconds>--:--:--</time> <span>Nagpur, IST</span></p>
+        </div>
+        <div class="footer-col footer-col--end">
+          <a class="to-top magnetic" href="#top" aria-label="Back to top"><span aria-hidden="true">↑</span></a>
+        </div>
+      </div>
+      <div class="footer-mark" aria-hidden="true"><span class="fm-inner">harshal.t</span></div>
+      <div class="wrap footer-bottom">
+        <span>© 2026 Harshal Tarwale</span>
+        <span>Designed & built by me — obviously.</span>
+      </div>
+    </footer>
   </div>
-
-  <dialog id="detail-panel" class="detail-panel" aria-labelledby="panel-title">
-    <div class="panel-shell">
-      <div class="panel-top"><a href="./" class="panel-wordmark">harshal.t</a><button type="button" class="close-panel" aria-label="Close panel"><span aria-hidden="true">×</span></button></div>
-      <div id="panel-content"></div>
-      <div class="panel-bottom"><span>DESIGNED & BUILT BY HARSHAL</span><span>NAGPUR ↗ WORLDWIDE</span></div>
-    </div>
-  </dialog>
-
-  <template id="panel-services">
-    <p class="eyebrow">01 / WHAT I DO</p><h2 id="panel-title">Good design.<br>Great engineering.</h2>
-    <p class="panel-intro">From the first wireframe to the moment it goes live. One person, zero handoff.</p>
-    <div class="service-list">
-      <div><span>01</span><h3>UI/UX design</h3><p>Clear journeys. Thoughtful interfaces. Figma designs with the build already in mind.</p></div>
-      <div><span>02</span><h3>Web development</h3><p>Responsive websites and web apps that look sharp and work beautifully.</p></div>
-      <div><span>03</span><h3>E-commerce</h3><p>Online stores built around your brand, your products, and your customers.</p></div>
-    </div>
-    <button class="text-link" type="button" data-panel="connect">Let’s build something <span aria-hidden="true">↗</span></button>
-  </template>
-  <template id="panel-work">
-    <p class="eyebrow">02 / BEHIND THE WORK</p><h2 id="panel-title">Real clients.<br>Real-world builds.</h2>
-    <p class="panel-intro">Design and development experience across agencies, businesses, and e-commerce. From Figma to a live website.</p>
-    <div class="experience-card"><div class="experience-top"><span>CO-FOUNDER</span><span>01 ↗</span></div><h3>Code Vantage</h3><p>A web development and design agency delivering production websites and e-commerce platforms for real clients.</p><div class="tags"><span>Design</span><span>Development</span><span>E-commerce</span></div></div>
-    <div class="experience-card"><div class="experience-top"><span>FULL STACK DEVELOPER</span><span>02 ↗</span></div><h3>Tech Monkeys</h3><p>Building live client websites and translating Figma designs into code for a Dubai-based digital agency. Working remotely, shipping worldwide.</p><div class="tags"><span>Figma to code</span><span>Client websites</span><span>Dubai / Remote</span></div></div>
-    <button class="text-link" type="button" data-panel="connect">Talk about your project <span aria-hidden="true">↗</span></button>
-  </template>
-  <template id="panel-about">
-    <p class="eyebrow">03 / THE PERSON BEHIND THE PIXELS</p><h2 id="panel-title">Designer’s eye.<br>Developer’s brain.</h2>
-    <p class="panel-intro">I’m Harshal Tarwale, a Full Stack Developer & UI/UX Designer based in Nagpur, India.</p>
-    <div class="about-copy"><p>I co-founded Code Vantage and work with Tech Monkeys, a Dubai-based digital agency. I build for clients across Dubai, the UK, and India.</p><p>I’m the person thinking about how it feels in Figma—and how it actually works in the browser. From the first wireframe to the final deploy, I take care of both.</p></div>
-    <div class="about-statement">One vision.<br>Zero handoff.</div>
-    <button class="text-link" type="button" data-panel="connect">Got an idea? I’m listening <span aria-hidden="true">↗</span></button>
-  </template>
-  <template id="panel-connect">
-    <p class="eyebrow">04 / YOUR NEXT BIG THING</p><h2 id="panel-title">Let’s make<br>some noise.</h2>
-    <p class="panel-intro">A fresh idea, an ambitious rebuild, or something you can’t quite put into words yet. Let’s start there.</p>
-    <form id="project-form">
-      <label for="project-name">What should I call you?</label><input id="project-name" name="name" placeholder="Your name" autocomplete="given-name" maxlength="80" required>
-      <fieldset><legend>What are we making?</legend><div class="project-options"><label><input type="radio" name="service" value="Website" checked><span>Website</span></label><label><input type="radio" name="service" value="E-commerce"><span>E-commerce</span></label><label><input type="radio" name="service" value="Web app"><span>Web app</span></label><label><input type="radio" name="service" value="UI/UX design"><span>UI/UX design</span></label></div></fieldset>
-      <label for="project-details">The idea <span class="optional">(optional)</span></label><textarea id="project-details" name="details" rows="3" placeholder="A little about what you have in mind…" maxlength="1500"></textarea>
-      <button type="submit" class="button button-primary send-button"><span>Let’s talk on WhatsApp</span><span class="button-icon" aria-hidden="true">↗</span></button>
-      <p class="form-note">Opens WhatsApp with your message ready to send.</p>
-    </form>
-  </template>
 </body>
 </html>

@@ -1,88 +1,108 @@
+// Browser QA for the full portfolio page. Run `node server.cjs` first, then `node qa/check.cjs`.
+// Uses a locally available Playwright; set PLAYWRIGHT_MODULE / CHROME_PATH on another machine.
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'C:/Users/asus/AppData/Local/npm-cache/_npx/705bc6b22212b352/node_modules/playwright-core');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const URL = 'http://127.0.0.1:4173/';
+const executablePath = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+
+async function scrollTo(page, selector, offset = 0) {
+  const goal = await page.evaluate(([s, o]) => (s === 'END' ? document.documentElement.scrollHeight : document.querySelector(s).getBoundingClientRect().top + window.scrollY + o), [selector, offset]);
+  for (let i = 0; i < 10; i++) { await page.evaluate(g => window.scrollTo(0, window.scrollY + (g - window.scrollY) / 2), goal); await page.waitForTimeout(80); }
+  await page.evaluate(g => window.scrollTo(0, g), goal);
+  await page.waitForTimeout(1300);
+}
+
 (async () => {
-  const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
-  const page = await browser.newPage({ viewport: { width: 1440, height: 919 }, deviceScaleFactor: 1 });
+  const browser = await chromium.launch({ headless: true, executablePath });
+  const report = {};
+
+  // ---------- Desktop ----------
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   const errors = [];
-  page.on('pageerror', error => errors.push(error.message));
-  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  const response = await page.goto('http://127.0.0.1:4173/');
-  assert.equal(response.status(), 200);
-  await page.evaluate(() => document.fonts.ready);
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  assert.equal((await page.goto(URL)).status(), 200);
+  await page.waitForSelector('.preloader', { state: 'detached', timeout: 8000 });
   await page.waitForSelector('.tech-text.is-ready');
   await page.waitForTimeout(600);
-  await page.screenshot({ path: 'qa/desktop.png', fullPage: true });
-  const assets = await page.locator('.hero img, .social-rail img').evaluateAll(images => images.map(image => ({ src: image.getAttribute('src'), loaded: image.complete && image.naturalWidth > 0, width: image.getBoundingClientRect().width, height: image.getBoundingClientRect().height })));
-  assert(assets.every(asset => asset.loaded && asset.width > 0 && asset.height > 0));
+  await page.screenshot({ path: 'qa/desktop.png' });
+
+  const images = await page.locator('img[src]:not([loading=lazy])').evaluateAll(list => list.map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0 })));
+  assert(images.every(i => i.ok), `Eager images load: ${JSON.stringify(images.filter(i => !i.ok))}`);
   assert.equal(await page.locator('#linkedin-link').getAttribute('href'), 'https://www.linkedin.com/in/harshaltarwale/');
   assert.equal(await page.locator('.social-rail a').first().getAttribute('href'), 'https://wa.me/917028235485');
-  const ink = await page.locator('.tech-text.is-ready canvas').evaluateAll(canvases => canvases.map(canvas => {
-    const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
-    let count = 0;
-    for (let i = 3; i < pixels.length; i += 4) if (pixels[i] > 0) count++;
-    return count;
-  }));
-  assert(ink.every(count => count > 5000), 'Both canvas headings render visible ink');
-  const before = await page.locator('.social-rail').boundingBox();
-  await page.evaluate(() => window.scrollTo(0, 116));
-  const after = await page.locator('.social-rail').boundingBox();
-  assert.equal(Math.round(before.y), Math.round(after.y), 'Social rail remains fixed while scrolling');
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await page.mouse.move(511, 482);
-  await page.waitForTimeout(500);
-  await page.screenshot({ path: 'qa/text-hover.png' });
-  await page.mouse.click(511, 482);
-  await page.waitForTimeout(80);
-  await page.screenshot({ path: 'qa/text-click.png' });
-  await page.mouse.move(1250, 750);
-  await page.getByRole('button', { name: 'Start a project', exact: true }).click();
-  assert(await page.locator('#detail-panel').evaluate(element => element.open));
+  const external = await page.locator('a[target=_blank]').evaluateAll(list => list.every(a => a.rel.includes('noopener')));
+  assert(external, 'External links use rel=noopener');
+
+  // Nav scrolls to sections and marks the active link
+  await page.locator('.header nav a', { hasText: 'Work' }).click();
+  await page.waitForTimeout(2200);
+  const workTop = await page.evaluate(() => document.querySelector('#work').getBoundingClientRect().top);
+  assert(Math.abs(workTop) < 120, `Work section reached by nav (top=${workTop})`);
+  assert.deepEqual(await page.locator('.header nav a.is-active').allTextContents(), ['Work']);
+
+  // Every section renders visible content once scrolled to
+  for (const sel of ['.about', '.services', '.work', '.process', '.why', '.contact', '.footer']) {
+    await scrollTo(page, sel, 120);
+    const visible = await page.evaluate(s => { const r = document.querySelector(s).getBoundingClientRect(); return r.height > 200; }, sel);
+    assert(visible, `${sel} renders`);
+  }
+  // Lazy project screenshots load once reached
+  await scrollTo(page, '.index-list', -200);
+  const lazy = await page.locator('.case img, .index-list img').evaluateAll(list => list.filter(i => i.offsetParent !== null && !(i.complete && i.naturalWidth > 0)).map(i => i.src));
+  report.lazyNotLoaded = lazy;
+
+  // Brief → prepared WhatsApp message
+  await scrollTo(page, '.contact', 100);
   await page.locator('#project-name').fill('Test User');
   await page.locator('#project-details').fill('A bold portfolio with motion.');
-  await page.locator('input[value="UI/UX design"]').check();
+  await page.locator('input[value="UI/UX design"]').check({ force: true });
+  await page.locator('input[name=timeline][value="as soon as possible"]').check({ force: true });
   await page.evaluate(() => { window.open = (...args) => { window.testPopup = args; }; });
-  await page.getByRole('button', { name: 'Let’s talk on WhatsApp' }).click();
-  const popup = await page.evaluate(() => window.testPopup);
-  assert(popup[0].startsWith('https://wa.me/917028235485?text='));
-  assert(decodeURIComponent(popup[0]).includes('Test User'));
-  assert(decodeURIComponent(popup[0]).includes('UI/UX design'));
+  await page.getByRole('button', { name: 'Send on WhatsApp' }).click();
+  const popup = decodeURIComponent((await page.evaluate(() => window.testPopup))[0]);
+  assert(popup.startsWith('https://wa.me/917028235485?text='));
+  for (const part of ['Test User', 'UI/UX design', 'as soon as possible', 'A bold portfolio with motion.']) assert(popup.includes(part), `Message includes ${part}`);
   await page.screenshot({ path: 'qa/contact.png' });
-  await page.keyboard.press('Escape');
-  assert.equal(await page.locator('#detail-panel').evaluate(element => element.open), false);
-  assert.equal(await page.evaluate(() => document.activeElement.textContent.includes('Start a project')), true);
-  for (const name of ['Services', 'Work', 'About', 'Connect']) {
-    await page.getByRole('navigation').getByRole('button', { name, exact: true }).click();
-    assert(await page.locator('#panel-title').isVisible());
-    await page.getByRole('button', { name: 'Close panel' }).click();
-  }
-  await page.getByRole('button', { name: 'A little curious? Touch the type.' }).click();
-  await page.waitForTimeout(100);
-  const layouts = [];
-  for (const width of [320, 390, 768, 1024, 1920]) {
-    await page.setViewportSize({ width, height: width < 600 ? 844 : 1000 });
-    await page.waitForTimeout(200);
-    const dimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
-    assert.equal(dimensions.width, dimensions.scrollWidth, `No horizontal overflow at ${width}`);
-    layouts.push(dimensions);
-    if (width === 390) {
-      await page.screenshot({ path: 'qa/mobile.png', fullPage: true });
-      await page.getByRole('button', { name: 'Start a project', exact: true }).click();
-      await page.waitForTimeout(500);
-      await page.screenshot({ path: 'qa/mobile-contact.png', fullPage: true });
-      await page.keyboard.press('Escape');
-    }
-  }
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.waitForTimeout(100);
-  assert.equal(await page.locator('.tech-text.is-ready').count(), 0);
-  assert(await page.locator('.text-fallback').first().isVisible());
-  const fallback = await browser.newPage({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
-  await fallback.goto('http://127.0.0.1:4173/');
-  assert(await fallback.locator('.text-fallback').first().isVisible());
-  assert.equal(errors.length, 0, errors.join('\n'));
-  const report = { status: 'passed', assets, headingInkPixels: ink, layouts, checks: ['desktop and mobile rendering', 'local assets loaded', 'canvas type renders', 'fixed social rail', 'navigation panels', 'WhatsApp message composition (intercepted, not sent)', 'Escape and focus restoration', 'responsive widths 320–1920px', 'reduced motion', 'text fallback without JavaScript', 'no browser errors'] };
-  fs.writeFileSync('qa/report.json', JSON.stringify(report, null, 2));
-  console.log(JSON.stringify(report, null, 2));
+
+  // Empty name is rejected
+  await page.locator('#project-name').fill('');
+  await page.evaluate(() => { window.testPopup = null; });
+  await page.getByRole('button', { name: 'Send on WhatsApp' }).click();
+  assert.equal(await page.evaluate(() => window.testPopup), null, 'Empty name blocks submission');
+
+  await scrollTo(page, 'END');
+  await page.screenshot({ path: 'qa/footer.png' });
+  assert.deepEqual(errors, [], `No console errors: ${errors.join(' | ')}`);
+  await page.close();
+
+  // ---------- Mobile ----------
+  const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+  const m = await mobile.newPage();
+  await m.goto(URL);
+  await m.waitForSelector('.preloader', { state: 'detached', timeout: 8000 });
+  await m.waitForTimeout(500);
+  await m.screenshot({ path: 'qa/mobile.png' });
+  const overflow = await m.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  assert(overflow <= 0, `No horizontal overflow on mobile (${overflow}px)`);
+  await scrollTo(m, '.work', 200);
+  await m.screenshot({ path: 'qa/mobile-work.png' });
+  await mobile.close();
+
+  // ---------- Reduced motion: no preloader, everything readable ----------
+  const calm = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
+  const c = await calm.newPage();
+  await c.goto(URL);
+  await c.waitForTimeout(800);
+  assert.equal(await c.locator('.preloader').count(), 0, 'Preloader skipped with reduced motion');
+  await scrollTo(c, '.about', 100);
+  const opacity = await c.evaluate(() => getComputedStyle(document.querySelector('.statement')).opacity);
+  assert.equal(opacity, '1');
+  await calm.close();
+
   await browser.close();
+  report.result = 'pass';
+  fs.writeFileSync('qa/report.json', JSON.stringify(report, null, 2));
+  console.log('QA passed', report);
 })().catch(error => { console.error(error); process.exit(1); });

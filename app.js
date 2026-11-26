@@ -7,6 +7,7 @@
   const typeElements = [...document.querySelectorAll('.tech-text')];
   let disposeType = [];
 
+  // ---- Hero: interactive Tech Text headline (React Bits engine) ----
   async function initializeType() {
     await document.fonts.ready;
     disposeType.forEach(dispose => dispose?.());
@@ -37,6 +38,7 @@
   motionQuery.addEventListener('change', initializeType);
   mobileQuery.addEventListener('change', initializeType);
 
+  // ---- Hero: ambient light follows the pointer ----
   let lightFrame = 0;
   hero.addEventListener('pointermove', event => {
     if (motionQuery.matches || !finePointer.matches || lightFrame) return;
@@ -50,13 +52,13 @@
     });
   }, { passive: true });
 
-  document.querySelectorAll('.magnetic').forEach(button => {
+  // ---- Glass buttons: reflection tilt + ripple ----
+  document.querySelectorAll('.button').forEach(button => {
     button.addEventListener('pointermove', event => {
       if (motionQuery.matches || !finePointer.matches) return;
       const box = button.getBoundingClientRect();
       const x = event.clientX - box.left - box.width / 2;
       const y = event.clientY - box.top - box.height / 2;
-      // Keep the button boundaries aligned; only the glass reflection tilts.
       button.style.setProperty('--tilt-x', `${-y * .06}deg`);
       button.style.setProperty('--tilt-y', `${x * .025}deg`);
       button.style.setProperty('--bx', `${event.clientX - box.left}px`);
@@ -78,50 +80,7 @@
     });
   });
 
-  const dialog = document.querySelector('#detail-panel');
-  const panelContent = document.querySelector('#panel-content');
-  let lastTrigger = null;
-  function openPanel(name, trigger) {
-    const template = document.querySelector(`#panel-${name}`);
-    if (!template) return;
-    if (!dialog.open) lastTrigger = trigger;
-    panelContent.replaceChildren(template.content.cloneNode(true));
-    document.body.classList.add('panel-open');
-    if (!dialog.open) dialog.showModal();
-    dialog.scrollTop = 0;
-    document.querySelector('.close-panel').focus({ preventScroll: true });
-  }
-  document.addEventListener('click', event => {
-    const trigger = event.target.closest('[data-panel]');
-    if (trigger) openPanel(trigger.dataset.panel, trigger);
-  });
-  document.querySelector('.close-panel').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', event => {
-    if (event.target !== dialog) return;
-    const box = dialog.getBoundingClientRect();
-    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
-  });
-  dialog.addEventListener('close', () => {
-    document.body.classList.remove('panel-open');
-    lastTrigger?.focus({ preventScroll: true });
-  });
-  document.addEventListener('submit', event => {
-    if (event.target.id !== 'project-form') return;
-    event.preventDefault();
-    const data = new FormData(event.target);
-    const name = String(data.get('name') || '').trim();
-    const nameInput = event.target.elements.namedItem('name');
-    if (!name) {
-      nameInput.setCustomValidity('Please enter your name.');
-      nameInput.reportValidity();
-      nameInput.addEventListener('input', () => nameInput.setCustomValidity(''), { once: true });
-      return;
-    }
-    const details = String(data.get('details') || '').trim();
-    const message = `Hey Harshal! I’m ${name}. I’d love to talk about a ${data.get('service')} project.${details ? `\n\n${details}` : ''}`;
-    window.open(`https://wa.me/917028235485?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
-  });
-
+  // ---- "Touch the type" hint: kicks the headline letters ----
   document.querySelector('#play-type').addEventListener('click', () => {
     if (motionQuery.matches) return;
     const line = typeElements[1];
@@ -131,5 +90,57 @@
     line.dispatchEvent(new PointerEvent('pointerdown', pointer));
     line.dispatchEvent(new PointerEvent('pointerup', pointer));
     window.setTimeout(() => line.dispatchEvent(new PointerEvent('pointerleave', pointer)), 900);
+  });
+
+  // ---- Project brief → prepared WhatsApp message ----
+  const form = document.querySelector('#project-form');
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') || '').trim();
+    const nameInput = form.elements.namedItem('name');
+    if (!name) {
+      nameInput.setCustomValidity('Please enter your name.');
+      nameInput.reportValidity();
+      nameInput.addEventListener('input', () => nameInput.setCustomValidity(''), { once: true });
+      return;
+    }
+    const details = String(data.get('details') || '').trim();
+    const timeline = data.get('timeline');
+    const message = `Hey Harshal! I’m ${name}. I’d love to talk about a ${data.get('service')} project${timeline ? `, ideally ${timeline}` : ''}.${details ? `\n\n${details}` : ''}`;
+    window.open(`https://wa.me/917028235485?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+  });
+
+  // ---- Live clocks (Nagpur / Dubai / London) ----
+  const clocks = [...document.querySelectorAll('.clock')];
+  const formatters = new Map();
+  function tick() {
+    const now = new Date();
+    clocks.forEach(clock => {
+      const key = `${clock.dataset.tz}|${'seconds' in clock.dataset}`;
+      if (!formatters.has(key)) {
+        formatters.set(key, new Intl.DateTimeFormat('en-GB', { timeZone: clock.dataset.tz, hour: '2-digit', minute: '2-digit', second: 'seconds' in clock.dataset ? '2-digit' : undefined, hour12: false }));
+      }
+      clock.textContent = formatters.get(key).format(now);
+    });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---- Design ↔ code compare slider (native range input = keyboard + touch accessible) ----
+  document.querySelectorAll('.compare').forEach(compare => {
+    const range = compare.querySelector('.compare-range');
+    const update = () => compare.style.setProperty('--pos', `${range.value}%`);
+    range.addEventListener('input', update);
+    update();
+  });
+
+  // ---- Bento tiles: pointer-tracked glow ----
+  document.querySelectorAll('.tile').forEach(tile => {
+    tile.addEventListener('pointermove', event => {
+      const box = tile.getBoundingClientRect();
+      tile.style.setProperty('--mx', `${event.clientX - box.left}px`);
+      tile.style.setProperty('--my', `${event.clientY - box.top}px`);
+    }, { passive: true });
   });
 })();

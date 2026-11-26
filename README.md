@@ -1,42 +1,55 @@
-# Harshal Tarwale — portfolio hero
+# Harshal Tarwale — portfolio
 
-A local, design-only implementation of Figma node `187:103` in `0a2qO6vKOabeZHGqpvtwVg`. Plain HTML, CSS, and JavaScript. No framework, build step, or runtime dependencies.
+Single-page portfolio for a Full Stack Developer & UI/UX Designer. Plain HTML, CSS and JavaScript — no framework or build step. The hero is the Figma design (`0a2qO6vKOabeZHGqpvtwVg`, node `187:103`); everything below it extends that design's colours, type and column grid.
 
 ## Preview
-
-Open `index.html` in a browser, or run:
 
 ```sh
 node server.cjs
 ```
 
-Then visit http://127.0.0.1:4173. Stop with Ctrl+C.
+Visit http://127.0.0.1:4173. Stop with Ctrl+C. (Opening `index.html` directly also works.)
 
-## Included
+## Page structure
 
-- Original downloaded Figma background, fade, and social icons. Alignment guides are intentionally omitted.
-- Locally hosted Syne, Onest, and Inter fonts.
-- React Bits Tech Text canvas engine adapted to plain JavaScript: letter reveal, dashed outlines, selection frame, 15 specks, click kick, and desktop letter dragging. The font weight and spacing follow Figma; intro and guides are off. The idle sweep is disabled so the headline stays readable on arrival.
-- Fixed right social rail with a white hover glow and gentle icon enlargement, linked to the supplied WhatsApp, Instagram, and LinkedIn destinations.
-- Monochrome glass buttons with cursor-following reflections, rolling labels, sliding arrows, and soft click feedback. Their combined width follows the original first grid column.
-- Gray/white Tech Text selection frames. Orange is reserved for atmospheric background depth and a few small accents.
-- Services, work experience, about, and project inquiry panels. The Work panel uses only supplied agency experience; no individual case studies or client results are invented.
-- WhatsApp inquiry composer. Submitting opens a prepared message; the visitor sends it in WhatsApp.
-- Responsive mobile typography, native modal focus management, Escape dismissal, and readable static text with reduced motion or JavaScript disabled.
+| # | Section | What it does for a client |
+|---|---------|---------------------------|
+| — | Preloader | 0→100 counter in the fire gradient; shortened on repeat visits within a session. |
+| — | Hero (Figma) | Interactive Tech Text headline, glass CTAs, social rail. |
+| — | Tape marquee | Crossing tapes: what I build. Speed and direction follow scroll velocity. |
+| 01 | About | Statement sharpens from blur word by word; ID card with live IST clock; count-up stats. |
+| 02 | Services | Light “sheet” section. Rows fill on hover; a related project screenshot follows the cursor. |
+| 03 | Selected work | Four stacked, sticky case cards (desktop + phone mockups of the live sites); “More builds” index with cursor previews. |
+| 04 | Process | Pinned horizontal scroll with a progress line (stacks vertically on tablet/phone). |
+| 05 | Why me | Bento grid: draggable Figma ↔ code compare, motion playground, checks, time zones, toolkit marquee. |
+| 06 | Contact | Fire-gradient section; project brief composes a WhatsApp message (name, project type, timeline, idea). |
+| — | Footer | Giant `harshal.t` wordmark rising letter by letter, live clock, links. |
+
+## Design system
+
+- **Colour:** ink `#000/#080806`, paper `#f1ede6`, fire gradient `#ffd400 → #ff9a00 → #ff5a14 → #e3200d → #8f0c0c → #2b1416` (from the brand reference).
+- **Type:** Syne (display, 400–800), Instrument Serif italic (accent words), JetBrains Mono (labels), Onest/Inter (UI/body). All self-hosted under `assets/`.
+- **Grid:** Figma column guides at 89 / 495 / 720 / 945 / 1349 px of 1440, drawn faintly behind dark sections (`.lined`).
 
 ## Files
 
-- `index.html` — hero and panel markup.
-- `styles.css` — layout, responsive styles, and interaction styling.
-- `app.js` — interactions, modal behavior, and inquiry composer.
-- `tech-text.js` — browser adaptation of the original React Bits engine.
-- `vendor/TechText.original.jsx` — original source retained for provenance.
-- `vendor/react-bits-LICENSE.md` — upstream license.
-- `scripts/prepare-tech-text.py` — regenerates the vanilla adapter from the retained source.
-- `qa/` — browser verification script, screenshots, and results. The QA script uses a locally available Playwright installation; set `PLAYWRIGHT_MODULE` to its path on another machine. Browser verification intercepts WhatsApp navigation without sending any message.
+- `index.html` — all markup.
+- `styles.css` — hero (from the Figma build) and base.
+- `site.css` — every section after the hero, header, cursor, preloader, responsive rules.
+- `app.js` — Tech Text hero, glass buttons, WhatsApp brief, clocks, compare slider.
+- `motion.js` — Lenis smooth scroll + GSAP ScrollTrigger/SplitText/ScrambleText: preloader, reveals, marquees, stacked cases, pinned process, previews, magnetic elements, cursor.
+- `tech-text.js` — browser adaptation of React Bits Tech Text (see `vendor/TechText.original.jsx`).
+- `assets/work/` — screenshots of the live project sites (desktop 1440×900, mobile 390×844).
+- `vendor/js/` — GSAP 3.15.1 (Standard “no charge” license, https://gsap.com/standard-license) and Lenis 1.3.29 (MIT, `vendor/lenis-LICENSE.md`).
+- `qa/check.cjs` — browser QA (desktop, mobile overflow, reduced motion, nav, brief). Run with the server up: `node qa/check.cjs`.
 
-Figma reference: https://www.figma.com/design/0a2qO6vKOabeZHGqpvtwVg/Untitled?node-id=187-103
+## Accessibility & resilience
 
-Tech Text source: https://github.com/DavidHDev/react-bits/tree/main/src/content/TextAnimations/TechText
+- All hidden/animated states are set by JavaScript, so content is readable with JS disabled.
+- `prefers-reduced-motion`: no preloader, smooth scroll, pinning, cursor or reveals; the process section stacks.
+- The compare slider is a native range input (keyboard + touch). Custom cursor only on fine pointers.
 
-This stage implements the hero. Navigation panels keep the preview useful until full homepage sections and actual project case studies are supplied. No publication or backend is configured.
+## Updating content
+
+- Projects: edit the `.case` articles and `.index-list` items in `index.html`; drop new screenshots into `assets/work/`.
+- Stats: the `data-count` values in the About section.
