@@ -148,7 +148,6 @@ html.js.motion .preloader {
 .social-rail { mix-blend-mode: difference; transition: opacity .4s; }
 /* tablets + phones: the rail would sit on top of section content, so it only shows over the hero */
 @media (max-width: 1100px) { .past-hero .social-rail { opacity: 0; pointer-events: none; } }
-.social-rail .social-tip { mix-blend-mode: normal; }
 
 
 /* ---------- Shared section primitives ---------- */

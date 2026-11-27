@@ -21,6 +21,7 @@
     glow: 1.6,
     grain: 0.01,
     quality: touch ? 0.4 : 0.6,
+    dpr: 1, // soft gradients don't need retina pixels: 1× is a quarter of the GPU work at DPR 2
     mouseStrength: 1
   });
 
