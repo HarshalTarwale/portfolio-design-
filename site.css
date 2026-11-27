@@ -65,13 +65,24 @@ html.js.motion .preloader {
 .header-cta.btn { left: calc(100% + 10px); transform: translate(-46px, -50%) scale(.86); }
 .header.is-scrolled .header-logo, .header.is-scrolled .header-cta.btn { pointer-events: auto; visibility: visible; opacity: 1; transform: translate(0, -50%);
   transition: opacity .45s ease .08s, transform .75s var(--ease-out) .04s, visibility 0s, color .5s cubic-bezier(.22,1,.36,1), box-shadow .6s, scale .25s; }
-/* wordmark: its own small pill of the same clear glass, same height as the capsule */
-.header-logo { isolation: isolate; display: inline-flex; align-items: center; height: var(--island-h); padding: 0 24px; border-radius: 999px;
-  font-family: Onest, Inter, sans-serif; font-weight: 700; font-size: calc(19px * var(--fs)); letter-spacing: -.02em; color: #fff6ee; white-space: nowrap; text-shadow: 0 1px 10px rgba(0,0,0,.35); }
+/* wordmark: a quiet, fainter glass pill — the nav links are the star */
+.header-logo { isolation: isolate; display: inline-flex; align-items: center; height: var(--island-h); padding: 0 22px; border-radius: 999px;
+  font-family: Onest, Inter, sans-serif; font-weight: 500; font-size: calc(16px * var(--fs)); letter-spacing: -.015em; color: rgba(250, 246, 240, .74); white-space: nowrap; text-shadow: 0 1px 10px rgba(0,0,0,.35);
+  transition: opacity .45s ease, transform .7s var(--ease-out), visibility 0s .7s, color .3s; }
+.header-logo .nav-glass { opacity: 0; }
+.header.is-scrolled .header-logo .nav-glass { opacity: .5; }
+.header-logo:hover, .header-logo:focus-visible { color: #fff6ee; }
 .header-logo:focus-visible { outline: 2px solid #ff8a3d; outline-offset: 3px; }
-.header.on-light .header-logo { color: #140a04; text-shadow: 0 1px 8px rgba(255,255,255,.5); }
-/* button: the site's fire button, sized to the island */
-.header-cta.btn { --h: var(--island-h); --dot: calc(var(--island-h) - 12px); --pad: 6px; gap: 16px; font-size: calc(14px * var(--fs)); }
+.header.on-light .header-logo { color: rgba(26, 18, 12, .66); text-shadow: 0 1px 8px rgba(255,255,255,.5); }
+.header.on-light .header-logo:hover, .header.on-light .header-logo:focus-visible { color: #140a04; }
+/* button: clear glass pill with a fire-gradient arrow circle; on hover the circle expands and floods the whole button */
+.header-cta.btn { --h: var(--island-h); --dot: calc(var(--island-h) - 14px); --pad: 7px; gap: 16px; font-size: calc(14.5px * var(--fs)); font-weight: 500;
+  --bg: transparent; --fg: rgba(250, 246, 240, .9); --fg-hover: #170903; --icon-bg: transparent; --icon-fg: #170903; --icon-bg-hover: #170903; --icon-fg-hover: #fff6ee;
+  box-shadow: none; text-shadow: 0 1px 10px rgba(0,0,0,.3); }
+.header-cta.btn:hover, .header-cta.btn:focus-visible { box-shadow: 0 14px 40px -14px rgba(255, 90, 31, .6); text-shadow: none; }
+.header-cta .nav-glass { z-index: -2; transition: opacity .35s ease; }
+.header-cta:is(:hover, :focus-visible) .nav-glass { opacity: 0 !important; }
+.header.on-light .header-cta.btn { --fg: rgba(26, 18, 12, .86); text-shadow: 0 1px 8px rgba(255,255,255,.5); }
 :root { --island-h: calc(54px * var(--fs)); }
 .header.is-hidden { transform: translateY(-100%); }
 .header.is-scrolled { height: 76px; }
