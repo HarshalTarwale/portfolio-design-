@@ -1,7 +1,1 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1440.01" height="181" viewBox="0 0 1440.01 181" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="hero lines">
-<path id="Line 12" d="M0 90.5H1440.01" stroke="white" stroke-opacity="0.23"/>
-<path id="Line 13" d="M0 0.5H1440.01" stroke="white" stroke-opacity="0.23"/>
-<path id="Line 14" d="M0 180.5H1440.01" stroke="white" stroke-opacity="0.23"/>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440.01" height="181" fill="none" overflow="visible" preserveAspectRatio="none" style="display:block" viewBox="0 0 1440.01 181"><g id="hero lines"><path id="Line 12" stroke="#fff" stroke-opacity=".23" d="M0 90.5H1440.01"/><path id="Line 13" stroke="#fff" stroke-opacity=".23" d="M0 0.5H1440.01"/><path id="Line 14" stroke="#fff" stroke-opacity=".23" d="M0 180.5H1440.01"/></g></svg>
