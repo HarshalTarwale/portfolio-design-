@@ -54,8 +54,25 @@ html.js.motion .preloader {
 .scroll-progress i { display: block; height: 100%; background: var(--fire); transform-origin: left; transform: scaleX(var(--p, 0)); }
 
 
-/* ---------- Header: plain links over the hero → glass capsule with a gooey fire pill once scrolled ---------- */
+/* ---------- Header: plain links over the hero → once scrolled, a centred island:
+   harshal.t (glass pill) | glass capsule with a gooey fire pill | Let's talk ---------- */
 .header { pointer-events: none; transition: transform .5s var(--ease-out), height .5s var(--ease-out); }
+/* the nav stays dead-centre in both states; wordmark and button hang off its sides */
+.header-island { position: relative; display: flex; align-items: center; }
+.header-logo, .header-cta.btn { position: absolute; top: 50%; pointer-events: none; visibility: hidden; opacity: 0;
+  transition: opacity .45s ease, transform .7s var(--ease-out), visibility 0s .7s; }
+.header-logo { right: calc(100% + 10px); transform: translate(46px, -50%) scale(.86); }
+.header-cta.btn { left: calc(100% + 10px); transform: translate(-46px, -50%) scale(.86); }
+.header.is-scrolled .header-logo, .header.is-scrolled .header-cta.btn { pointer-events: auto; visibility: visible; opacity: 1; transform: translate(0, -50%);
+  transition: opacity .45s ease .08s, transform .75s var(--ease-out) .04s, visibility 0s, color .5s cubic-bezier(.22,1,.36,1), box-shadow .6s, scale .25s; }
+/* wordmark: its own small pill of the same clear glass, same height as the capsule */
+.header-logo { isolation: isolate; display: inline-flex; align-items: center; height: var(--island-h); padding: 0 24px; border-radius: 999px;
+  font-family: Onest, Inter, sans-serif; font-weight: 700; font-size: calc(19px * var(--fs)); letter-spacing: -.02em; color: #fff6ee; white-space: nowrap; text-shadow: 0 1px 10px rgba(0,0,0,.35); }
+.header-logo:focus-visible { outline: 2px solid #ff8a3d; outline-offset: 3px; }
+.header.on-light .header-logo { color: #140a04; text-shadow: 0 1px 8px rgba(255,255,255,.5); }
+/* button: the site's fire button, sized to the island */
+.header-cta.btn { --h: var(--island-h); --dot: calc(var(--island-h) - 12px); --pad: 6px; gap: 16px; font-size: calc(14px * var(--fs)); }
+:root { --island-h: calc(54px * var(--fs)); }
 .header.is-hidden { transform: translateY(-100%); }
 .header.is-scrolled { height: 76px; }
 
@@ -68,8 +85,8 @@ html.js.motion .preloader {
   transition: padding .55s var(--ease-out);
 }
 /* the capsule: clear glass, no tint — only light on its edges (React Bits Glass Surface look).
-   .is-refractive (Chromium) bends what's behind it through the SVG filter built in gooey-nav.js */
-.gooey-nav__glass { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transform: scale(.94);
+   .is-refractive (Chromium) bends what's behind it through the SVG filters built in gooey-nav.js */
+.nav-glass { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transform: scale(.94);
   -webkit-backdrop-filter: blur(10px) saturate(1.5) brightness(1.06); backdrop-filter: blur(10px) saturate(1.5) brightness(1.06);
   background: linear-gradient(135deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0) 64%, rgba(255,255,255,.04) 100%);
   box-shadow:
@@ -79,8 +96,8 @@ html.js.motion .preloader {
     inset 0 0 12px 3px rgba(255,255,255,.07),
     0 4px 16px rgba(0,0,0,.12), 0 8px 24px rgba(0,0,0,.12), 0 16px 56px rgba(0,0,0,.14);
   transition: opacity .5s ease, transform .6s var(--ease-out); }
-.is-refractive .gooey-nav__glass {
-  -webkit-backdrop-filter: url(#nav-glass) blur(6px) saturate(1.4); backdrop-filter: url(#nav-glass) blur(6px) saturate(1.4);
+.is-refractive .nav-glass {
+  -webkit-backdrop-filter: var(--glass-filter) blur(6px) saturate(1.4); backdrop-filter: var(--glass-filter) blur(6px) saturate(1.4);
   background: rgba(10, 9, 8, .16); /* neutral veil (no hue) so labels read over busy content */
   box-shadow:
     inset 0 0 2px 1px rgba(255,255,255,.35),
@@ -89,12 +106,12 @@ html.js.motion .preloader {
     inset 0 4px 16px rgba(17,17,26,.05), inset 0 8px 24px rgba(17,17,26,.05), inset 0 16px 56px rgba(17,17,26,.05),
     0 4px 16px rgba(0,0,0,.1), 0 8px 24px rgba(0,0,0,.1), 0 16px 56px rgba(0,0,0,.12); }
 .header.is-scrolled .gooey-nav { --gn-pad: 7px; --gn-gap: 2px; --gn-x: 19px; --gn-y: 11px; --gn-muted: rgba(250, 246, 240, .82); }
-.header.is-scrolled .gooey-nav__glass { opacity: 1; transform: none; }
+.header.is-scrolled .nav-glass { opacity: 1; transform: none; }
 /* over the light (paper) sections: dark ink, and the glass edge lit a touch darker so it still reads */
 .header.is-scrolled .gooey-nav__list:not(.gooey-nav__list--active) .gooey-nav__link { text-shadow: 0 1px 10px rgba(0,0,0,.35); }
 .header.on-light .gooey-nav { --gn-muted: rgba(26, 18, 12, .74); --gn-ink: #140a04; }
 .header.on-light .gooey-nav__list .gooey-nav__link { text-shadow: 0 1px 8px rgba(255,255,255,.5); }
-.header.on-light .gooey-nav__glass { background: rgba(255, 255, 255, .3); box-shadow:
+.header.on-light .nav-glass { background: rgba(255, 255, 255, .3); box-shadow:
     inset 0 0 2px 1px rgba(255,255,255,.7), inset 0 0 10px 4px rgba(255,255,255,.35), inset 0 1px 0 0 rgba(255,255,255,.8),
     inset 0 0 0 1px rgba(0,0,0,.06), 0 4px 16px rgba(30,20,10,.08), 0 8px 24px rgba(30,20,10,.08), 0 16px 56px rgba(30,20,10,.1); }
 
@@ -429,6 +446,7 @@ html.js.motion .preloader {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
+  .header-logo, .header-cta.btn { display: none; } /* no room beside the capsule */
   .about-grid { grid-template-columns: 1fr; }
   .about-side { display: none; }
   .lanyard-hint { bottom: 34px; }
@@ -452,6 +470,7 @@ html.js.motion .preloader {
   :root { --side: 22px; --radius-xl: 26px; }
   .gooey-nav { --gn-x: 10px; font-size: calc(12.5px * var(--fs)); }
   .header.is-scrolled .gooey-nav { --gn-x: 13px; --gn-y: 10px; --gn-pad: 6px; }
+  :root { --island-h: 47px; }
   .section-head--split { flex-direction: column; align-items: flex-start; gap: 0; }
   .section-head--split .section-lede { margin: 26px 0 0; }
   .display { font-size: clamp(calc(42px * var(--fs)), 12.4vw, calc(64px * var(--fs))); }

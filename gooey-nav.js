@@ -654,16 +654,18 @@ void main() {
   settle(-1);
   document.fonts?.ready.then(() => { measure(); if (!drops.length) settle(target); });
 
-  // ---- clear glass capsule (React Bits Glass Surface technique) ----
-  const glass = nav.querySelector('.gooey-nav__glass');
+  // ---- clear glass: the nav capsule and the wordmark pill (React Bits Glass Surface technique) ----
+  // Each .nav-glass gets its own SVG filter whose displacement map matches its size.
+  const header = nav.closest('.header');
   const svgGlass = (() => {
     const ua = navigator.userAgent;
     if ((/Safari/.test(ua) && !/Chrome/.test(ua)) || /Firefox/.test(ua)) return false;
     const probe = document.createElement('div');
-    probe.style.backdropFilter = 'url(#nav-glass)';
+    probe.style.backdropFilter = 'url(#nav-glass-0)';
     return probe.style.backdropFilter !== '';
   })();
-  if (glass && svgGlass) {
+  const glasses = [...header.querySelectorAll('.nav-glass')];
+  if (glasses.length && svgGlass) {
     const G = { borderWidth: 0.07, brightness: 50, opacity: 0.93, blur: 11, distortion: -26, red: 0, green: 1, blue: 2 }; // subtler than the React Bits demo: labels sit on top
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
@@ -671,7 +673,7 @@ void main() {
     svg.setAttribute('width', '0');
     svg.setAttribute('height', '0');
     svg.style.position = 'absolute';
-    svg.innerHTML = `<defs><filter id="nav-glass" color-interpolation-filters="sRGB" x="0%" y="0%" width="100%" height="100%">
+    svg.innerHTML = '<defs>' + glasses.map((_, i) => `<filter id="nav-glass-${i}" color-interpolation-filters="sRGB" x="0%" y="0%" width="100%" height="100%">
       <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map"/>
       <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" scale="${G.distortion + G.red}" result="dispRed"/>
       <feColorMatrix in="dispRed" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
@@ -682,32 +684,34 @@ void main() {
       <feBlend in="red" in2="green" mode="screen" result="rg"/>
       <feBlend in="rg" in2="blue" mode="screen" result="output"/>
       <feGaussianBlur in="output" stdDeviation="0.7"/>
-    </filter></defs>`;
+    </filter>`).join('') + '</defs>';
     document.body.append(svg);
-    const feImage = svg.querySelector('feImage');
-    // displacement map: red = x shift, blue = y shift, neutral grey in the middle → bends only near the rim
-    const map = () => {
-      const w = glass.offsetWidth || 400;
-      const h = glass.offsetHeight || 60;
-      const r = h / 2;
-      const edge = Math.min(w, h) * (G.borderWidth * 0.5);
-      const svgMap = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="${ns}"><defs>
-        <linearGradient id="r" x1="100%" y1="0%" x2="0%" y2="0%"><stop offset="0%" stop-color="#0000"/><stop offset="100%" stop-color="red"/></linearGradient>
-        <linearGradient id="b" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#0000"/><stop offset="100%" stop-color="blue"/></linearGradient>
-        <filter id="s" filterUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="${G.blur}"/></filter></defs>
-        <rect width="${w}" height="${h}" fill="black"/>
-        <rect width="${w}" height="${h}" rx="${r}" fill="url(#r)"/>
-        <rect width="${w}" height="${h}" rx="${r}" fill="url(#b)" style="mix-blend-mode:difference"/>
-        <rect x="${edge}" y="${edge}" width="${w - edge * 2}" height="${h - edge * 2}" rx="${r}" fill="hsl(0 0% ${G.brightness}% / ${G.opacity})" filter="url(#s)"/></svg>`;
-      feImage.setAttribute('href', `data:image/svg+xml,${encodeURIComponent(svgMap)}`);
-    };
-    map();
-    new ResizeObserver(map).observe(glass);
-    nav.classList.add('is-refractive');
+    glasses.forEach((glass, i) => {
+      const feImage = svg.querySelector(`#nav-glass-${i} feImage`);
+      glass.style.setProperty('--glass-filter', `url(#nav-glass-${i})`);
+      // displacement map: red = x shift, blue = y shift, neutral grey in the middle → bends only near the rim
+      const map = () => {
+        const w = glass.offsetWidth || 400;
+        const h = glass.offsetHeight || 60;
+        const r = h / 2;
+        const edge = Math.min(w, h) * (G.borderWidth * 0.5);
+        const svgMap = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="${ns}"><defs>
+          <linearGradient id="r" x1="100%" y1="0%" x2="0%" y2="0%"><stop offset="0%" stop-color="#0000"/><stop offset="100%" stop-color="red"/></linearGradient>
+          <linearGradient id="b" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#0000"/><stop offset="100%" stop-color="blue"/></linearGradient>
+          <filter id="s" filterUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="${G.blur}"/></filter></defs>
+          <rect width="${w}" height="${h}" fill="black"/>
+          <rect width="${w}" height="${h}" rx="${r}" fill="url(#r)"/>
+          <rect width="${w}" height="${h}" rx="${r}" fill="url(#b)" style="mix-blend-mode:difference"/>
+          <rect x="${edge}" y="${edge}" width="${w - edge * 2}" height="${h - edge * 2}" rx="${r}" fill="hsl(0 0% ${G.brightness}% / ${G.opacity})" filter="url(#s)"/></svg>`;
+        feImage.setAttribute('href', `data:image/svg+xml,${encodeURIComponent(svgMap)}`);
+      };
+      map();
+      new ResizeObserver(map).observe(glass);
+    });
+    header.classList.add('is-refractive');
   }
 
   // ---- clear glass shows what's behind it, so the labels switch to dark ink over light sections ----
-  const header = nav.closest('.header');
   const lightSections = [...document.querySelectorAll('[data-nav-light]')];
   const tone = () => {
     const box = nav.getBoundingClientRect();

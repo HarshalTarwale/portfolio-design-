@@ -30,7 +30,7 @@ async function scrollTo(page, selector, offset = 0) {
   report.webgl = await page.evaluate(() => !!document.querySelector('.hero-bg.is-on') || document.documentElement.classList.contains('has-gl'));
   assert(report.webgl, 'Hero background is running');
   assert.equal(await page.locator('.cursor').count(), 0, 'No custom cursor');
-  assert.equal(await page.locator('.header-cta, .header-logo').count(), 0, 'Header is the nav only');
+  assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.header-cta')).opacity), '0', 'Island button hidden over the hero');
   assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.gooey-nav__glass')).opacity), '0', 'No capsule over the hero');
   assert.equal(await page.locator('.btn .btn-text .c').first().count(), 1, 'Button labels split for the roll');
   await page.waitForTimeout(600);
@@ -50,6 +50,7 @@ async function scrollTo(page, selector, offset = 0) {
   assert(Math.abs(workTop) < 120, `Work section reached by nav (top=${workTop})`);
   assert.deepEqual(await page.locator('.header nav a.is-active').allTextContents(), ['Work']);
   assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.gooey-nav__glass')).opacity), '1', 'Glass capsule once scrolled');
+  assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.header-logo')).visibility), 'visible', 'Wordmark joins the island once scrolled');
   await page.screenshot({ path: 'qa/nav.png', clip: { x: 420, y: 0, width: 600, height: 110 } });
 
   // Every section renders visible content once scrolled to
