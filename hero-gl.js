@@ -215,12 +215,20 @@ void main(){
     gl.uniform1f(mu.uIntro, k * k * (3 - 2 * k));
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
+  // GPU reset / driver hiccup: drop back to the static artwork instead of a blank canvas
+  let lost = false;
+  canvas.addEventListener('webglcontextlost', e => {
+    e.preventDefault();
+    lost = true;
+    document.documentElement.classList.remove('has-gl');
+  });
+
   function loop() {
-    if (running || !imgTex) return;
+    if (lost || running || !imgTex) return;
     running = true;
     prev = performance.now();
     const tick = now => {
-      if (!visible || document.hidden) { running = false; return; }
+      if (lost || !visible || document.hidden) { running = false; return; }
       frame(now);
       requestAnimationFrame(tick);
     };

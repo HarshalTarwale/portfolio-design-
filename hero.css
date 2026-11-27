@@ -6,14 +6,14 @@
    Cream pill with a fire "ember" behind the arrow. On hover the ember floods
    the whole pill, the label rolls up letter by letter and the arrow is swapped. */
 .btn {
-  --h: 62px; --dot: 50px; --pad: 6px; --r0: calc(var(--dot) / 2);
+  --h: calc(62px * var(--fs)); --dot: calc(50px * var(--fs)); --pad: 6px; --r0: calc(var(--dot) / 2);
   --bg: #f8f4ee; --fg: #0d0c0b; --fg-hover: #0d0c0b; --bd: transparent;
   --flood: linear-gradient(95deg, #ffd23a 0%, #ff8a1e 32%, #ff4a17 64%, #e3200d 100%);
   --icon-bg: transparent; --icon-fg: #0d0c0b; --icon-bg-hover: #0d0c0b; --icon-fg-hover: #f8f4ee;
   position: relative; display: inline-flex; align-items: center; gap: 18px; height: var(--h);
   padding: 0 var(--pad) 0 calc(var(--h) * .42); border-radius: 100px; border: 1px solid var(--bd);
   background: var(--bg); color: var(--fg); isolation: isolate; overflow: hidden; white-space: nowrap;
-  font-family: Onest, Inter, sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -.01em;
+  font-family: Onest, Inter, sans-serif; font-weight: 600; font-size: calc(15px * var(--fs)); letter-spacing: -.01em;
   transition: color .5s cubic-bezier(.22,1,.36,1), border-color .5s, box-shadow .6s, scale .25s;
   box-shadow: 0 10px 30px -12px rgba(0,0,0,.5);
 }
@@ -32,7 +32,7 @@
 .btn:hover .btn-icon, .btn:focus-visible .btn-icon { background: var(--icon-bg-hover); color: var(--icon-fg-hover); scale: .84; }
 .btn:hover .btn-icon svg:first-child, .btn:focus-visible .btn-icon svg:first-child { transform: translate(220%, -220%); }
 .btn:hover .btn-icon svg + svg, .btn:focus-visible .btn-icon svg + svg { transform: translate(0, 0); }
-.btn-count { align-self: flex-start; margin: 15px 0 0 -13px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; opacity: .6; }
+.btn-count { align-self: flex-start; margin: 15px 0 0 -13px; font-family: 'JetBrains Mono', monospace; font-size: calc(10px * var(--fs)); font-weight: 500; opacity: .6; }
 /* Horizontal arrows travel sideways instead of diagonally */
 .btn--ghost .btn-icon svg + svg { transform: translateX(-240%); }
 .btn--ghost:hover .btn-icon svg:first-child, .btn--ghost:focus-visible .btn-icon svg:first-child { transform: translateX(240%); }
@@ -44,7 +44,7 @@
 .btn--ghost:hover, .btn--ghost:focus-visible { --bd: #f8f4ee; box-shadow: 0 18px 50px -18px rgba(248,244,238,.35); }
 /* Ink: for fire backgrounds — floods black */
 .btn--ink { --bg: #fff8f0; --flood: #0d0c0b; --r0: 0px; --fg-hover: #fff8f0; --icon-bg: var(--fire-text, #ff5a14); --icon-bg-hover: var(--fire-text, #ff5a14); --icon-fg-hover: #0d0c0b; }
-.btn--sm { --h: 46px; --dot: 36px; --pad: 5px; gap: 14px; font-size: 13.5px; }
+.btn--sm { --h: calc(46px * var(--fs)); --dot: calc(36px * var(--fs)); --pad: 5px; gap: 14px; font-size: calc(13.5px * var(--fs)); }
 .btn--sm .btn-icon svg { width: 15px; height: 15px; }
 .btn--block { display: flex; width: 100%; }
 
@@ -59,11 +59,11 @@ html.has-gl .hero-fallback { opacity: 0; }
 .hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(180deg, rgba(0,0,0,0), #000 92%); }
 
 .hero-content { position: relative; padding-top: var(--hero-top); margin-inline: var(--gutter); }
-.wordmark { display: inline-block; font-family: Onest, Arial, sans-serif; font-weight: 700; font-size: 30.45px; line-height: 1.25; letter-spacing: -.01em; }
+.wordmark { display: inline-block; font-family: Onest, Arial, sans-serif; font-weight: 700; font-size: calc(30.45px * var(--fs)); line-height: 1.25; letter-spacing: -.01em; }
 .hero-title { margin: 39px 0 0; font-family: 'Syne Var', 'Syne', Arial, sans-serif; font-weight: 700; letter-spacing: .00952em; color: #f8f8f5; }
 .hl { display: block; white-space: nowrap; line-height: 1.12; }
-.hl-1 { font-size: clamp(45px, 5.3115vw, 100px); }
-.hl-2 { font-size: clamp(68px, 7.8182vw, 148px); margin-top: -.06em; }
+.hl-1 { font-size: clamp(calc(45px * var(--fs)), 5.3115vw, calc(100px * var(--fs))); }
+.hl-2 { font-size: clamp(calc(68px * var(--fs)), 7.8182vw, calc(148px * var(--fs))); margin-top: -.06em; }
 .hl-mask { display: block; overflow: clip; padding: 0 .1em .08em 0; margin: 0 -.1em -.08em 0; }
 .hl-in { display: inline-block; will-change: transform; }
 .hero-actions { display: flex; align-items: center; gap: 14px; margin-top: 42px; }
@@ -71,12 +71,12 @@ html.has-gl .hero-fallback { opacity: 0; }
 @media (max-width: 1100px) { .hero { min-height: 700px; } .hl-1 { font-size: 5.3vw; } .hl-2 { font-size: 7.8vw; } }
 @media (max-width: 650px) {
   .hero { min-height: 680px; --hero-top: clamp(170px, 25svh, 240px); }
-  .wordmark { font-size: 24px; }
+  .wordmark { font-size: calc(24px * var(--fs)); }
   .hero-title { margin-top: 28px; }
   .hl-1 { font-size: 7.4vw; }
   .hl-2 { font-size: 16vw; line-height: 1.02; }
   .hl-2 .hl-word { display: block; }
-  .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 34px; max-width: 320px; }
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 34px; max-width: calc(320px * var(--fs)); }
   .hero-actions .btn { --h: 58px; --dot: 46px; width: 100%; }
   .hero-fallback { width: 210%; left: -65%; height: 100%; top: 0; }
 }

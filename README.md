@@ -30,6 +30,7 @@ Visit http://127.0.0.1:4173. Stop with Ctrl+C. (Opening `index.html` directly al
 - **Colour:** ink `#000/#080806`, paper `#f1ede6`, fire gradient `#ffd400 → #ff9a00 → #ff5a14 → #e3200d → #8f0c0c → #2b1416` (from the brand reference).
 - **Type:** Syne (display), Instrument Serif italic (accent words), JetBrains Mono (labels), Onest/Inter (UI/body). All self-hosted under `assets/`.
 - **Buttons (`.btn`):** cream pill with a fire “ember” behind the arrow; on hover the ember floods the pill, the label rolls up letter by letter and the arrow swaps. Variants: `--fire` (default), `--ghost` (glass, floods cream), `--ink` (for the fire section, floods black), `--sm`, `--block`.
+- **Screen sizes:** fixed text sizes and text widths are multiplied by `--fs` (`styles.css`): 1 up to 1799px, then 1.12 / 1.28 / 1.5 at 1800 / 2200 / 2800px, so big monitors don't look empty. The footer wordmark is sized in `app.js` to the real page width (scrollbar excluded).
 - **Grid:** Figma column guides at 89 / 495 / 720 / 945 / 1349 px of 1440, drawn faintly behind dark sections (`.lined`).
 
 ## Files
