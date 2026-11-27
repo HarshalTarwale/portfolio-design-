@@ -158,9 +158,10 @@
   const statement = document.querySelector('[data-blur-reveal]');
   if (statement && window.SplitText) {
     const split = window.SplitText.create(statement, { type: 'words', wordsClass: 'bw' });
+    // fully sharp by the time the paragraph's centre reaches mid-screen, so it can be read in full
     gsap.fromTo(split.words, { opacity: .12, filter: 'blur(7px)' }, {
       opacity: 1, filter: 'blur(0px)', ease: 'none', stagger: .1,
-      scrollTrigger: { trigger: statement, start: 'top 78%', end: 'bottom 52%', scrub: .6 },
+      scrollTrigger: { trigger: statement, start: 'top 82%', end: 'center 50%', scrub: .5 },
     });
     gsap.from(statement.querySelectorAll('.chip-img'), { width: 0, marginInline: 0, borderWidth: 0, duration: 1, ease: 'expo.out', stagger: .2, scrollTrigger: { trigger: statement, start: 'top 60%', once: true } });
   }

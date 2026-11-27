@@ -571,11 +571,12 @@ const placeHanging = (sim, layout, intro) => {
   nodes[0].copy(anchor);
   for (let i = 1; i <= JOINTS; i++) {
     nodes[i].copy(nodes[i - 1]);
-    if (intro) nodes[i].x += sim.rest;
-    else nodes[i].y -= sim.rest;
+    // intro: the strap starts bunched up, so the badge drops a short way and
+    // the band stretches and settles like an elastic, instead of a big swing
+    nodes[i].y -= sim.rest * (intro ? 0.55 : 1);
   }
   body.quaternion.identity();
-  if (intro) body.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+  if (intro) body.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), 0.06);
   body.hang.set(0, layout.hangY, 0);
   const offset = scratch.a.copy(body.hang).applyQuaternion(body.quaternion);
   body.position.copy(nodes[JOINTS]).sub(offset);
