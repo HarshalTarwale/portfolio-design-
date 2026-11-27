@@ -54,16 +54,68 @@ html.js.motion .preloader {
 .scroll-progress i { display: block; height: 100%; background: var(--fire); transform-origin: left; transform: scaleX(var(--p, 0)); }
 
 
-/* ---------- Header (fixed) ---------- */
-.header { transition: transform .5s var(--ease-out); }
-.header::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,8,6,.78), rgba(8,8,6,.35)); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid rgba(255,255,255,.06); opacity: 0; transition: opacity .4s; z-index: -1; }
-.header.is-scrolled::before { opacity: 1; }
+/* ---------- Header: plain links over the hero → glass capsule with a gooey fire pill once scrolled ---------- */
+.header { pointer-events: none; transition: transform .5s var(--ease-out), height .5s var(--ease-out); }
 .header.is-hidden { transform: translateY(-100%); }
-.header.is-scrolled { height: 68px; }
-.header-logo { position: absolute; left: var(--side); top: 50%; transform: translate(-10px, -50%); opacity: 0; pointer-events: none; transition: opacity .45s, transform .6s var(--ease-out); font-family: var(--ui); font-weight: 700; font-size: calc(21px * var(--fs)); letter-spacing: -.02em; }
-.header-cta.btn { position: absolute; right: calc(var(--side) + 40px); top: 50%; transform: translate(10px, -50%); opacity: 0; pointer-events: none; transition: opacity .45s, transform .6s var(--ease-out), color .5s cubic-bezier(.22,1,.36,1), box-shadow .6s, scale .25s; }
-.header.is-scrolled .header-logo, .header.is-scrolled .header-cta.btn { opacity: 1; pointer-events: auto; transform: translate(0, -50%); }
-.header.is-scrolled nav { padding-top: 0; }
+.header.is-scrolled { height: 76px; }
+
+/* Gooey Nav (React Bits, see gooey-nav.js) — layout from its CSS, themed in the fire palette */
+.gooey-nav {
+  --gn-pad: 0px; --gn-gap: 0px; --gn-x: 14.5px; --gn-y: 10px;
+  --gn-ink: #fff6ee; --gn-muted: #e6e6e6; --gn-active-ink: #170903;
+  position: relative; isolation: isolate; display: inline-flex; max-width: calc(100vw - 24px); padding: var(--gn-pad); border-radius: 999px; pointer-events: auto;
+  font-family: Onest, Inter, sans-serif; font-size: calc(15px * var(--fs)); line-height: 1.2;
+  transition: padding .55s var(--ease-out);
+}
+/* the capsule: clear glass, no tint — only light on its edges (React Bits Glass Surface look).
+   .is-refractive (Chromium) bends what's behind it through the SVG filter built in gooey-nav.js */
+.gooey-nav__glass { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transform: scale(.94);
+  -webkit-backdrop-filter: blur(10px) saturate(1.5) brightness(1.06); backdrop-filter: blur(10px) saturate(1.5) brightness(1.06);
+  background: linear-gradient(135deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0) 64%, rgba(255,255,255,.04) 100%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,.32),
+    inset 0 -1px 0 0 rgba(255,255,255,.08),
+    inset 0 0 2px 1px rgba(255,255,255,.26),
+    inset 0 0 12px 3px rgba(255,255,255,.07),
+    0 4px 16px rgba(0,0,0,.12), 0 8px 24px rgba(0,0,0,.12), 0 16px 56px rgba(0,0,0,.14);
+  transition: opacity .5s ease, transform .6s var(--ease-out); }
+.is-refractive .gooey-nav__glass {
+  -webkit-backdrop-filter: url(#nav-glass) blur(6px) saturate(1.4); backdrop-filter: url(#nav-glass) blur(6px) saturate(1.4);
+  background: rgba(10, 9, 8, .16); /* neutral veil (no hue) so labels read over busy content */
+  box-shadow:
+    inset 0 0 2px 1px rgba(255,255,255,.35),
+    inset 0 0 10px 4px rgba(255,255,255,.15),
+    inset 0 1px 0 0 rgba(255,255,255,.3),
+    inset 0 4px 16px rgba(17,17,26,.05), inset 0 8px 24px rgba(17,17,26,.05), inset 0 16px 56px rgba(17,17,26,.05),
+    0 4px 16px rgba(0,0,0,.1), 0 8px 24px rgba(0,0,0,.1), 0 16px 56px rgba(0,0,0,.12); }
+.header.is-scrolled .gooey-nav { --gn-pad: 7px; --gn-gap: 2px; --gn-x: 19px; --gn-y: 11px; --gn-muted: rgba(250, 246, 240, .82); }
+.header.is-scrolled .gooey-nav__glass { opacity: 1; transform: none; }
+/* over the light (paper) sections: dark ink, and the glass edge lit a touch darker so it still reads */
+.header.is-scrolled .gooey-nav__list:not(.gooey-nav__list--active) .gooey-nav__link { text-shadow: 0 1px 10px rgba(0,0,0,.35); }
+.header.on-light .gooey-nav { --gn-muted: rgba(26, 18, 12, .74); --gn-ink: #140a04; }
+.header.on-light .gooey-nav__list .gooey-nav__link { text-shadow: 0 1px 8px rgba(255,255,255,.5); }
+.header.on-light .gooey-nav__glass { background: rgba(255, 255, 255, .3); box-shadow:
+    inset 0 0 2px 1px rgba(255,255,255,.7), inset 0 0 10px 4px rgba(255,255,255,.35), inset 0 1px 0 0 rgba(255,255,255,.8),
+    inset 0 0 0 1px rgba(0,0,0,.06), 0 4px 16px rgba(30,20,10,.08), 0 8px 24px rgba(30,20,10,.08), 0 16px 56px rgba(30,20,10,.1); }
+
+.gooey-nav__stage { position: relative; max-width: 100%; }
+.gooey-nav__canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
+.gooey-nav__fallback { position: absolute; top: 0; left: 0; display: none; border-radius: 999px; background: linear-gradient(100deg, rgba(255,184,40,.88), rgba(255,115,15,.88) 50%, rgba(237,48,18,.9)); box-shadow: inset 0 1px 0 rgba(255,238,210,.6); pointer-events: none; }
+.gooey-nav__list { position: relative; display: flex; gap: var(--gn-gap); margin: 0; padding: 0; list-style: none; transition: gap .55s var(--ease-out); }
+.gooey-nav__list--active { position: absolute; inset: 0; color: var(--gn-active-ink); visibility: hidden; clip-path: inset(100%); pointer-events: none; }
+.gooey-nav__item { display: flex; }
+.gooey-nav__link { position: relative; display: inline-flex; align-items: center; padding: var(--gn-y) var(--gn-x); border-radius: 999px; color: var(--gn-muted); font: inherit; font-weight: 500; white-space: nowrap; text-decoration: none; cursor: pointer;
+  transition: color .25s ease, padding .55s var(--ease-out); -webkit-tap-highlight-color: transparent; }
+.gooey-nav__list--active .gooey-nav__link { color: inherit; }
+.gooey-nav__link:hover, .gooey-nav__link[aria-current] { color: var(--gn-ink); }
+.gooey-nav__link:focus-visible { outline: 2px solid #ff8a3d; outline-offset: 2px; }
+/* the goo only exists in the capsule; over the hero the links keep their underline */
+.gooey-nav__canvas, .gooey-nav__fallback, .gooey-nav__list--active { transition: opacity .35s ease; }
+.header:not(.is-scrolled) :is(.gooey-nav__canvas, .gooey-nav__fallback, .gooey-nav__list--active) { opacity: 0; }
+.nav-line { position: absolute; bottom: 1px; height: 2px; left: 50%; right: 50%; background: #e4e4e4; transition: left .3s, right .3s, opacity .3s; }
+.header:not(.is-scrolled) .gooey-nav__link:is(:hover, :focus-visible) .nav-line { left: var(--gn-x); right: var(--gn-x); }
+.header.is-scrolled .nav-line { opacity: 0; }
+
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,129,63,.6); } 70% { box-shadow: 0 0 0 8px rgba(255,129,63,0); } 100% { box-shadow: 0 0 0 0 rgba(255,129,63,0); } }
 .social-rail { mix-blend-mode: difference; transition: opacity .4s; }
 /* tablets + phones: the rail would sit on top of section content, so it only shows over the hero */
@@ -377,7 +429,6 @@ html.js.motion .preloader {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
-  .header-cta { display: none; }
   .about-grid { grid-template-columns: 1fr; }
   .about-side { display: none; }
   .lanyard-hint { bottom: 34px; }
@@ -399,7 +450,8 @@ html.js.motion .preloader {
 }
 @media (max-width: 650px) {
   :root { --side: 22px; --radius-xl: 26px; }
-  .header-logo { display: none; }
+  .gooey-nav { --gn-x: 10px; font-size: calc(12.5px * var(--fs)); }
+  .header.is-scrolled .gooey-nav { --gn-x: 13px; --gn-y: 10px; --gn-pad: 6px; }
   .section-head--split { flex-direction: column; align-items: flex-start; gap: 0; }
   .section-head--split .section-lede { margin: 26px 0 0; }
   .display { font-size: clamp(calc(42px * var(--fs)), 12.4vw, calc(64px * var(--fs))); }

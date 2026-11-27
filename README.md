@@ -60,6 +60,10 @@ Visit http://127.0.0.1:4173. Stop with Ctrl+C. (Opening `index.html` directly al
 - Projects: edit the `.case` articles and `.index-list` items in `index.html`; drop new screenshots into `assets/work/`.
 - Stats: the `data-count` values in the About section.
 
+## Header nav
+
+Over the hero the header is just the four links (About · Services · Work · Connect, in page order). Once you scroll it becomes a **clear glass capsule**: no tint, only light on its edges; in Chromium it refracts what's behind it through an SVG displacement filter (React Bits Glass Surface technique), elsewhere it's clear frosted glass. Labels switch to dark ink over light sections (`data-nav-light`). The active section is React Bits **Gooey Nav**: a translucent glass pill in the contact-section fire gradient that bursts into fire droplets and re-forms on the next item; it follows scroll (spy in `motion.js`) and clicks, and melts away where no link applies. All in `gooey-nav.js` (Gooey Nav shader/physics are the original, plus the gradient/translucency); styles in `site.css` → “Header”.
+
 ## Hero background
 
 `hero-bg.js` mounts the React Bits **Dark Veil** (original code, `src/backgrounds/DarkVeil.jsx`) behind the hero, tinted red-orange to match the contact section. It reacts to the pointer. Without WebGL2 or with reduced motion, the ember trail (`hero-gl.js`) / static artwork is used. They run unchanged on a small React stand-in (`react-shim.js`). Tune brightness/colour in `veilProps()`; rebuild with `npm i esbuild@0.24` then `node src/backgrounds/build.cjs`.

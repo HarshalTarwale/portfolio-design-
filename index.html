@@ -28,6 +28,7 @@
   <script src="vendor/js/lenis.min.js" defer></script>
   <script src="hero-gl.js" defer></script>
   <script src="hero-bg.js" defer></script>
+  <script src="gooey-nav.js" defer></script>
   <script src="app.js" defer></script>
   <script src="motion.js" defer></script>
 </head>
@@ -48,14 +49,17 @@
 
   <div class="site-shell">
     <header class="header">
-      <a class="header-logo" href="#top" aria-label="Harshal Tarwale — back to top">harshal.t</a>
-      <nav aria-label="Main navigation">
-        <a href="#services" data-nav>Services<span></span></a>
-        <a href="#work" data-nav>Work<span></span></a>
-        <a href="#about" data-nav>About<span></span></a>
-        <a href="#contact" data-nav>Connect<span></span></a>
+      <nav class="gooey-nav" aria-label="Main navigation">
+        <span class="gooey-nav__glass" aria-hidden="true"></span>
+        <div class="gooey-nav__stage">
+          <ul class="gooey-nav__list">
+            <li class="gooey-nav__item"><a class="gooey-nav__link" href="#about" data-nav>About<span class="nav-line"></span></a></li>
+            <li class="gooey-nav__item"><a class="gooey-nav__link" href="#services" data-nav>Services<span class="nav-line"></span></a></li>
+            <li class="gooey-nav__item"><a class="gooey-nav__link" href="#work" data-nav>Work<span class="nav-line"></span></a></li>
+            <li class="gooey-nav__item"><a class="gooey-nav__link" href="#contact" data-nav>Connect<span class="nav-line"></span></a></li>
+          </ul>
+        </div>
       </nav>
-      <a class="btn btn--fire btn--sm header-cta" href="#contact"><span class="btn-text" data-roll>Let’s talk</span><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
     </header>
 
     <aside class="social-rail" aria-label="Find me online">
@@ -150,7 +154,7 @@
       </section>
 
       <!-- ============ SERVICES (light) ============ -->
-      <section class="section services" id="services" aria-labelledby="services-title">
+      <section class="section services" id="services" data-nav-light aria-labelledby="services-title">
         <div class="wrap">
           <div class="section-head">
             <p class="label" data-scramble>(02) — Services</p>

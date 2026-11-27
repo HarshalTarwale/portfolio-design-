@@ -16,11 +16,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Header */
 .header { position: fixed; inset: 0 0 auto; z-index: 40; height: 82px; display: flex; align-items: center; justify-content: center; }
-.header nav { display: flex; gap: 29px; }
-.header nav a { position: relative; padding: 10px 0; font-family: Onest, Inter, sans-serif; font-size: calc(15px * var(--fs)); font-weight: 500; color: #e6e6e6; transition: color .25s; }
-.header nav a span { position: absolute; bottom: 1px; height: 2px; background: #e4e4e4; left: 50%; right: 50%; transition: left .3s, right .3s; }
-.header nav a:hover, .header nav a:focus-visible, .header nav a.is-active { color: #fff; }
-.header nav a:hover span, .header nav a:focus-visible span, .header nav a.is-active span { left: 0; right: 0; }
 .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ff904f; box-shadow: 0 0 12px #ff813f90; flex-shrink: 0; }
 
 /* Right-side social links */
@@ -40,8 +35,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 650px) {
   :root { --gutter: 22px; }
   .header { height: 70px; }
-  .header nav { gap: 20px; }
-  .header nav a { font-size: calc(12.5px * var(--fs)); }
   .social-rail { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }

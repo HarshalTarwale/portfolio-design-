@@ -95,7 +95,7 @@
   document.querySelectorAll('[data-nav]').forEach(link => {
     const section = document.querySelector(link.getAttribute('href'));
     if (!section) return;
-    ScrollTrigger.create({ trigger: section, start: 'top 55%', end: 'bottom 55%', onToggle: self => link.classList.toggle('is-active', self.isActive) });
+    ScrollTrigger.create({ trigger: section, start: 'top 55%', end: 'bottom 55%', refreshPriority: -1, onToggle: self => link.classList.toggle('is-active', self.isActive) }); // measured after the pinned sections above it
   });
 
   // ---------- Hero: parallax out ----------
