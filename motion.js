@@ -54,7 +54,7 @@
   });
 
   // ---------- Preloader → hero entrance ----------
-  const heroItems = ['.header nav a', '.wordmark', '.hero-actions > *', '.social-rail a']
+  const heroItems = ['.header nav a', '.wordmark', '.hero-actions > *', '.hero-meta > *', '.social-rail a']
     .flatMap(sel => [...document.querySelectorAll(sel)]);
   const titleLines = [...document.querySelectorAll('.hero-title .hl-in')];
   gsap.set(heroItems, { y: 46, opacity: 0 });

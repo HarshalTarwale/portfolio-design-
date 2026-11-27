@@ -60,6 +60,10 @@ Visit http://127.0.0.1:4173. Stop with Ctrl+C. (Opening `index.html` directly al
 - Projects: edit the `.case` articles and `.index-list` items in `index.html`; drop new screenshots into `assets/work/`.
 - Stats: the `data-count` values in the About section.
 
+## Hero background
+
+`hero-bg.js` mounts the React Bits **Dark Veil** (original code, `src/backgrounds/DarkVeil.jsx`) behind the hero, tinted red-orange to match the contact section. It reacts to the pointer. Without WebGL2 or with reduced motion, the ember trail (`hero-gl.js`) / static artwork is used. They run unchanged on a small React stand-in (`react-shim.js`). Tune brightness/colour in `veilProps()`; rebuild with `npm i esbuild@0.24` then `node src/backgrounds/build.cjs`.
+
 ## Rebuilding the lanyard
 
 After editing `src/lanyard.js`, bundle it with three.js (any folder that has `three` installed):

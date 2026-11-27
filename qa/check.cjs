@@ -25,8 +25,10 @@ async function scrollTo(page, selector, offset = 0) {
   assert.equal((await page.goto(URL)).status(), 200);
   await page.waitForSelector('.preloader', { state: 'detached', timeout: 8000 });
   assert.equal((await page.locator('#hero-heading').innerText()).replace(/\s+/g, ' ').trim(), 'Let’s make your Website iconic.');
-  await page.waitForFunction(() => document.documentElement.classList.contains('has-gl'), null, { timeout: 5000 }).catch(() => {});
-  report.webgl = await page.evaluate(() => document.documentElement.classList.contains('has-gl'));
+  // hero background: an interactive React Bits layer (hero-bg.js) or the ember-trail fallback
+  await page.waitForFunction(() => document.querySelector('.hero-bg.is-on') || document.documentElement.classList.contains('has-gl'), null, { timeout: 5000 }).catch(() => {});
+  report.webgl = await page.evaluate(() => !!document.querySelector('.hero-bg.is-on') || document.documentElement.classList.contains('has-gl'));
+  assert(report.webgl, 'Hero background is running');
   assert.equal(await page.locator('.cursor').count(), 0, 'No custom cursor');
   assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.header-cta')).opacity), '0', 'Header CTA hidden at the top');
   assert.equal(await page.locator('.btn .btn-text .c').first().count(), 1, 'Button labels split for the roll');

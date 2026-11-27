@@ -58,6 +58,27 @@ html.has-gl .hero-gl { opacity: 1; }
 html.has-gl .hero-fallback { opacity: 0; }
 .hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(180deg, rgba(0,0,0,0), #000 92%); }
 
+/* Interactive React Bits background (hero-bg.js) — replaces the artwork when it runs */
+html.has-bg .hero-fallback, html.has-bg .hero-gl { opacity: 0; }
+.hero-bg { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; }
+.hero-bg.is-on { opacity: 1; }
+.hero-bg > div, .hero-bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* soft shade behind the headline so it always reads, whatever the effect is doing */
+html.has-bg .hero-art::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(70% 60% at 22% 52%, rgba(0,0,0,.3), rgba(0,0,0,0) 70%); }
+
+/* Hero meta row */
+.hero-meta { position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: 34px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: calc(11px * var(--fs)); letter-spacing: .08em; text-transform: uppercase; color: rgba(248,244,238,.72); }
+.hero-avail { margin: 0; display: inline-flex; align-items: center; gap: 10px; }
+.hero-avail .status-dot { animation: pulse 2s infinite; }
+.hero-scroll { display: inline-flex; align-items: center; gap: 14px; color: inherit; }
+.hero-scroll i { position: relative; display: block; width: 1px; height: 46px; background: rgba(248,244,238,.22); overflow: hidden; }
+.hero-scroll i::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 45%; background: linear-gradient(180deg, #ffd23a, #ff4a17); animation: scroll-cue 2.2s cubic-bezier(.65,0,.35,1) infinite; }
+@keyframes scroll-cue { 0% { transform: translateY(-110%); } 60%, 100% { transform: translateY(240%); } }
+@media (prefers-reduced-motion: reduce) { .hero-scroll i::after { animation: none; top: 20%; } }
+@media (max-width: 650px) { .hero-meta { bottom: 22px; } .hero-avail { font-size: 9.5px; letter-spacing: .05em; } .hero-scroll span { display: none; } }
+
 .hero-content { position: relative; padding-top: var(--hero-top); margin-inline: var(--gutter); }
 .wordmark { display: inline-block; font-family: Onest, Arial, sans-serif; font-weight: 700; font-size: calc(30.45px * var(--fs)); line-height: 1.25; letter-spacing: -.01em; }
 .hero-title { margin: 39px 0 0; font-family: 'Syne Var', 'Syne', Arial, sans-serif; font-weight: 700; letter-spacing: .00952em; color: #f8f8f5; }

@@ -3,7 +3,8 @@
    breathing with a faint heat haze. The pointer leaves a fading trail that reveals the streaks
    at full colour, refracting and smearing them like heat. When idle, a slow ghost ember drifts
    across the right side. Without WebGL / with reduced motion the static image remains. */
-(() => {
+// Started by hero-bg.js only when the "ember" background is the one picked (or another one fails).
+window.startEmber = () => {
   'use strict';
   const canvas = document.querySelector('.hero-gl');
   const hero = document.querySelector('.hero');
@@ -234,4 +235,4 @@ void main(){
     };
     requestAnimationFrame(tick);
   }
-})();
+};
