@@ -82,6 +82,24 @@
     window.open(`https://wa.me/917028235485?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
   });
 
+  // ---- Footer wordmark: sized to the real page width (vw includes the scrollbar, so it would overflow) ----
+  const wordmark = document.querySelector('.fm-inner');
+  if (wordmark) {
+    let lastBox = 0;
+    const fit = (force = true) => {
+      const box = wordmark.parentElement.clientWidth;
+      if (!force && box === lastBox) return;
+      lastBox = box;
+      wordmark.style.fontSize = '';
+      const base = parseFloat(getComputedStyle(wordmark).fontSize);
+      const width = wordmark.getBoundingClientRect().width;
+      if (width > 0) wordmark.style.fontSize = `${(base * box * .985) / width}px`;
+    };
+    fit();
+    document.fonts?.ready.then(() => fit());
+    new ResizeObserver(() => fit(false)).observe(wordmark.parentElement);
+  }
+
   // ---- Live clocks (Nagpur / Dubai / London) ----
   const clocks = [...document.querySelectorAll('.clock')];
   const formatters = new Map();

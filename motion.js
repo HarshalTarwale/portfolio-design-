@@ -310,7 +310,8 @@
     const text = mark.textContent;
     mark.textContent = '';
     [...text].forEach(ch => { const s = document.createElement('span'); s.className = 'ch'; s.textContent = ch; mark.append(s); });
-    gsap.from(mark.querySelectorAll('.ch'), { yPercent: 105, ease: 'none', stagger: .04, scrollTrigger: { trigger: '.footer-mark', start: 'top bottom', end: 'bottom bottom', scrub: .6 } });
+    // plays through once (not scrubbed) so the letters always land level, whatever the screen height
+    gsap.from(mark.querySelectorAll('.ch'), { yPercent: 105, duration: 1.1, ease: 'expo.out', stagger: .05, scrollTrigger: { trigger: '.footer-mark', start: 'top 92%', once: true } });
   }
 
   // ---------- Magnetic elements ----------
