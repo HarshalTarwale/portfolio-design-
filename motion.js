@@ -9,14 +9,10 @@
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   // ---------- Header state (works with or without GSAP) ----------
-  let lastY = window.scrollY;
-  let headerLocked = false;
   function onScrollHeader() {
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 40);
     document.body.classList.toggle('past-hero', y > window.innerHeight * .8);
-    if (!headerLocked) header.classList.toggle('is-hidden', y > lastY && y > 500);
-    lastY = y;
   }
   window.addEventListener('scroll', onScrollHeader, { passive: true });
   onScrollHeader();
@@ -46,8 +42,7 @@
     const target = id === '#top' ? 0 : document.querySelector(id);
     if (target === null) return;
     event.preventDefault();
-    headerLocked = true;
-    const done = () => { headerLocked = false; if (id !== '#top') target.focus?.({ preventScroll: true }); };
+    const done = () => { if (id !== '#top') target.focus?.({ preventScroll: true }); };
     if (lenis) lenis.scrollTo(target, { force: true, duration: 1.5, easing: t => 1 - Math.pow(1 - t, 4), onComplete: done });
     else { window.scrollTo({ top: id === '#top' ? 0 : target.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); setTimeout(done, 900); }
     history.replaceState(null, '', id === '#top' ? location.pathname : id);

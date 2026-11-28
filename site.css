@@ -84,7 +84,6 @@ html.js.motion .preloader {
 .header-cta:is(:hover, :focus-visible) .nav-glass { opacity: 0 !important; }
 .header.on-light .header-cta.btn { --fg: rgba(26, 18, 12, .86); text-shadow: 0 1px 8px rgba(255,255,255,.5); }
 :root { --island-h: calc(54px * var(--fs)); }
-.header.is-hidden { transform: translateY(-100%); }
 .header.is-scrolled { height: 76px; }
 
 /* Gooey Nav (React Bits, see gooey-nav.js) — layout from its CSS, themed in the fire palette */
